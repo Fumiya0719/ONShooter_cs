@@ -12,7 +12,7 @@ public class MusicManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        title = "パンとフィルム";
+        title = "Emargence Vibe";
         song = GetComponent<AudioSource>();
         Music = (AudioClip)Resources.Load("Musics/" + title);
         played = false;

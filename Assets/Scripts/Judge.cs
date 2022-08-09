@@ -12,66 +12,20 @@ public class Judge : MonoBehaviour
     {
         // 次に来るノーツに反応してる？
         if (
-            (Input.GetKeyDown(KeyCode.LeftShift) && notesManager.LaneNum[0] == 0)
-            (Input.GetKeyDown(KeyCode.S) && notesManager.LaneNum[0] == 1)
-            (Input.GetKeyDown(KeyCode.D) && notesManager.LaneNum[0] == 2)
-            (Input.GetKeyDown(KeyCode.F) && notesManager.LaneNum[0] == 3)
-            (Input.GetKeyDown(KeyCode.Equals) && notesManager.LaneNum[0] == 4)
-            (Input.GetKeyDown(KeyCode.Semicolon) && notesManager.LaneNum[0] == 5)
-            (Input.GetKeyDown(KeyCode.RightBracket) && notesManager.LaneNum[0] == 6)
-            (Input.GetKeyDown(KeyCode.RightShift) && notesManager.LaneNum[0] == 7)      
+            (Input.GetKeyDown(KeyCode.LeftShift) && notesManager.LaneNum[0] == 0) ||
+            (Input.GetKeyDown(KeyCode.S) && notesManager.LaneNum[0] == 1) ||
+            (Input.GetKeyDown(KeyCode.D) && notesManager.LaneNum[0] == 2) ||
+            (Input.GetKeyDown(KeyCode.F) && notesManager.LaneNum[0] == 3) ||
+            (Input.GetKeyDown(KeyCode.Equals) && notesManager.LaneNum[0] == 4) ||
+            (Input.GetKeyDown(KeyCode.Semicolon) && notesManager.LaneNum[0] == 5) ||
+            (Input.GetKeyDown(KeyCode.RightBracket) && notesManager.LaneNum[0] == 6) ||
+            (Input.GetKeyDown(KeyCode.RightShift) && notesManager.LaneNum[0] == 7) 
         ) {
-            Judgement(GetABS(Time.time - (notesManager.NotesTime[0] + EntireManager.instance.StartTime)));
+            Judgement(Mathf.Abs(Time.time - (notesManager.NotesTime[0] + EntireManager.instance.StartTime)));
         }
-        // if (Input.GetKeyDown(KeyCode.LeftShift)) {
-        //     if (notesManager.LaneNum[0] == 0) {
-        //         Judgement(GetABS(Time.time - (notesManager.NotesTime[0] + EntireManager.instance.StartTime)));
-        //     }
-        // }
-        // if (Input.GetKeyDown(KeyCode.S)) {
-        //     if (notesManager.LaneNum[0] == 1) {
-        //         // Debug.Log("S");
-        //         Judgement(GetABS(Time.time - (notesManager.NotesTime[0] + EntireManager.instance.StartTime)));
-        //     }
-        // }
-        // if (Input.GetKeyDown(KeyCode.D)) {
-        //     if (notesManager.LaneNum[0] == 2) {
-        //         // Debug.Log("D");
-        //         Judgement(GetABS(Time.time - (notesManager.NotesTime[0] + EntireManager.instance.StartTime)));
-        //     }
-        // }
-        // if (Input.GetKeyDown(KeyCode.F)) {
-        //     if (notesManager.LaneNum[0] == 3) {
-        //         // Debug.Log("F");
-        //         Judgement(GetABS(Time.time - (notesManager.NotesTime[0] + EntireManager.instance.StartTime)));
-        //     }
-        // }
-        // if (Input.GetKeyDown(KeyCode.Equals)) {
-        //     if (notesManager.LaneNum[0] == 4) {
-        //         // Debug.Log(";");
-        //         Judgement(GetABS(Time.time - (notesManager.NotesTime[0] + EntireManager.instance.StartTime)));
-        //     }
-        // }
-        // if (Input.GetKeyDown(KeyCode.Semicolon)) {
-        //     if (notesManager.LaneNum[0] == 5) {
-        //         // Debug.Log(":");
-        //         Judgement(GetABS(Time.time - (notesManager.NotesTime[0] + EntireManager.instance.StartTime)));
-        //     }
-        // }
-        // if (Input.GetKeyDown(KeyCode.RightBracket)) {
-        //     if (notesManager.LaneNum[0] == 6) {
-        //         // Debug.Log("]");
-        //         Judgement(GetABS(Time.time - (notesManager.NotesTime[0] + EntireManager.instance.StartTime)));
-        //     }
-        // }
-        // if (Input.GetKeyDown(KeyCode.RightShift)) {
-        //     if (notesManager.LaneNum[0] == 7) {
-        //         Judgement(GetABS(Time.time - (notesManager.NotesTime[0] + EntireManager.instance.StartTime)));
-        //     }
-        // }
         
         // ノーツを叩くタイミングから一定時間経過したらミス判定
-        if (Time.time > notesManager.NotesTime[0] + 0.1f + EntireManager.instance.StartTime) {
+        if (Time.time > notesManager.NotesTime[0] + 0.1 + EntireManager.instance.StartTime) {
             message(3);
             deleteData();
             EntireManager.instance.Miss++;
@@ -81,7 +35,7 @@ public class Judge : MonoBehaviour
     }
 
     void Judgement(float timeLag) {
-        Debug.Log(timeLag);
+        // Debug.Log(timeLag);
         // 判定表示
         if (timeLag <= 0.033) {
             // Debug.Log("Critical Break");
@@ -113,7 +67,7 @@ public class Judge : MonoBehaviour
         notesManager.NotesTime.RemoveAt(0);
         notesManager.LaneNum.RemoveAt(0);
         notesManager.NoteType.RemoveAt(0);
-        // notesManager.NotesObj.RemoveAt(0);
+        notesManager.NotesObj.RemoveAt(0);
     }
 
     void message(int judge) {
