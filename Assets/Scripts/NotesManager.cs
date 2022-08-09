@@ -69,5 +69,4 @@ public class NotesManager : MonoBehaviour
         //     Debug.Log(NotesTime[i]);
         // }
     }
-
 }

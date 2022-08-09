@@ -10,7 +10,7 @@ public class Judge : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 次に来るノーツに反応してる？
+        // 毎回参照するのは0番目の値 ＝ 0番目にいるデータが消えない限り他のノーツは反応しない ＝ 同時押しがちゃんと認識しない
         if (
             (Input.GetKeyDown(KeyCode.LeftShift) && notesManager.LaneNum[0] == 0) ||
             (Input.GetKeyDown(KeyCode.S) && notesManager.LaneNum[0] == 1) ||
@@ -56,11 +56,6 @@ public class Judge : MonoBehaviour
             EntireManager.instance.combo++;
             deleteData();
         }
-    }
-
-    float GetABS(float num) {
-        if (num < 0) return -num;
-        return num;
     }
 
     void deleteData() {
