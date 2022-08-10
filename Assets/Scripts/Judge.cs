@@ -7,6 +7,8 @@ public class Judge : MonoBehaviour
     [SerializeField] private GameObject[] MessageObj;
     [SerializeField] NotesManager notesManager;
 
+    [SerializeField] bool JudgeSlowAndFast;
+
     // Update is called once per frame
     void Update()
     {
@@ -30,17 +32,24 @@ public class Judge : MonoBehaviour
     }
 
     void JudgeNotes(int index) {
-        float timeLagg = 0.0f;
         for (int i = 0; i < 6; i++) {
-            timeLagg = Time.time - (notesManager.NotesTime[i] + EntireManager.instance.StartTime);
-            float timeLag = Mathf.Abs(timeLagg);
+            float timeLag = Time.time - (notesManager.NotesTime[i] + EntireManager.instance.StartTime);
+            float timeLagABS = Mathf.Abs(timeLag);
             
-            if (timeLag <= 0.10 && notesManager.LaneNum[i] == index) {
-                if (timeLag <= 0.033) {
+            if (timeLagABS <= 0.10 && notesManager.LaneNum[i] == index) {
+                if (JudgeSlowAndFast) {
+                    if (timeLag < 0) {
+                        Debug.Log("fast");
+                    } else {
+                        Debug.Log("slow");
+                    }
+                }
+
+                if (timeLagABS <= 0.033) {
                     // Debug.Log("Critical Break");
                     message(0, i);
                     EntireManager.instance.CBreak++;
-                } else if (timeLag <= 0.066) {
+                } else if (timeLagABS <= 0.066) {
                     // Debug.Log("Break");
                     message(1, i);
                     EntireManager.instance.Break++;
@@ -53,11 +62,6 @@ public class Judge : MonoBehaviour
                 deleteData(i);
                 break;
             }
-        }
-        if (timeLagg < 0) {
-            Debug.Log("fast");
-        } else {
-            Debug.Log("slow");
         }
     }
 
