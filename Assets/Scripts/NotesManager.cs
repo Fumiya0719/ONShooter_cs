@@ -26,7 +26,7 @@ public class NotesManager : MonoBehaviour
 {
     public int noteNum;
     // 曲名
-    private string title;
+    public string title;
     public List<int> LaneNum = new List<int>();
     public List<int> NoteType = new List<int>();
     public List<float> NotesTime = new List<float>();
@@ -39,7 +39,7 @@ public class NotesManager : MonoBehaviour
 
     void OnEnable() {
         noteNum = 0;
-        title = "Emargence Vibe";
+        title = "Emargence Vibe2";
         Load(title);
     }
 

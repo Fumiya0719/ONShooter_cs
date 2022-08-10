@@ -6,8 +6,10 @@ public class MusicManager : MonoBehaviour
 {
     AudioSource song;
     AudioClip Music;
-    string title;
+    public string title;
     bool played;
+
+    [SerializeField] NotesManager notesManager;
 
     // Start is called before the first frame update
     void Start()

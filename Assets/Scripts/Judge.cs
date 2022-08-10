@@ -10,62 +10,65 @@ public class Judge : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // 毎回参照するのは0番目の値 ＝ 0番目にいるデータが消えない限り他のノーツは反応しない ＝ 同時押しがちゃんと認識しない
-        if (
-            (Input.GetKeyDown(KeyCode.LeftShift) && notesManager.LaneNum[0] == 0) ||
-            (Input.GetKeyDown(KeyCode.S) && notesManager.LaneNum[0] == 1) ||
-            (Input.GetKeyDown(KeyCode.D) && notesManager.LaneNum[0] == 2) ||
-            (Input.GetKeyDown(KeyCode.F) && notesManager.LaneNum[0] == 3) ||
-            (Input.GetKeyDown(KeyCode.Equals) && notesManager.LaneNum[0] == 4) ||
-            (Input.GetKeyDown(KeyCode.Semicolon) && notesManager.LaneNum[0] == 5) ||
-            (Input.GetKeyDown(KeyCode.RightBracket) && notesManager.LaneNum[0] == 6) ||
-            (Input.GetKeyDown(KeyCode.RightShift) && notesManager.LaneNum[0] == 7) 
-        ) {
-            Judgement(Mathf.Abs(Time.time - (notesManager.NotesTime[0] + EntireManager.instance.StartTime)));
-        }
-        
+        if (Input.GetKeyDown(KeyCode.LeftShift)) JudgeNotes(0);
+        if (Input.GetKeyDown(KeyCode.S)) JudgeNotes(1);
+        if (Input.GetKeyDown(KeyCode.D)) JudgeNotes(2);
+        if (Input.GetKeyDown(KeyCode.F)) JudgeNotes(3);
+        if (Input.GetKeyDown(KeyCode.Equals)) JudgeNotes(4);
+        if (Input.GetKeyDown(KeyCode.Semicolon)) JudgeNotes(5);
+        if (Input.GetKeyDown(KeyCode.RightBracket)) JudgeNotes(6);
+        if (Input.GetKeyDown(KeyCode.RightShift)) JudgeNotes(7);
+       
         // ノーツを叩くタイミングから一定時間経過したらミス判定
         if (Time.time > notesManager.NotesTime[0] + 0.1 + EntireManager.instance.StartTime) {
-            message(3);
-            deleteData();
+            message(3, 0);
+            deleteData(0);
             EntireManager.instance.Miss++;
             EntireManager.instance.combo = 0;
             // Debug.Log("Miss");
         }
     }
 
-    void Judgement(float timeLag) {
-        // Debug.Log(timeLag);
-        // 判定表示
-        if (timeLag <= 0.033) {
-            // Debug.Log("Critical Break");
-            message(0);
-            EntireManager.instance.CBreak++;
-            EntireManager.instance.combo++;
-            deleteData();
-        } else if (timeLag <= 0.066) {
-            // Debug.Log("Break");
-            message(1);
-            EntireManager.instance.Break++;
-            EntireManager.instance.combo++;
-            deleteData();
-        } else if (timeLag <= 0.10) {
-            // Debug.Log("Hit");
-            message(2);
-            EntireManager.instance.Hit++;
-            EntireManager.instance.combo++;
-            deleteData();
+    void JudgeNotes(int index) {
+        float timeLagg = 0.0f;
+        for (int i = 0; i < 6; i++) {
+            timeLagg = Time.time - (notesManager.NotesTime[i] + EntireManager.instance.StartTime);
+            float timeLag = Mathf.Abs(timeLagg);
+            
+            if (timeLag <= 0.10 && notesManager.LaneNum[i] == index) {
+                if (timeLag <= 0.033) {
+                    // Debug.Log("Critical Break");
+                    message(0, i);
+                    EntireManager.instance.CBreak++;
+                } else if (timeLag <= 0.066) {
+                    // Debug.Log("Break");
+                    message(1, i);
+                    EntireManager.instance.Break++;
+                } else {
+                    // Debug.Log("Hit");
+                    message(2, i);
+                    EntireManager.instance.Hit++;
+                }
+                EntireManager.instance.combo++;
+                deleteData(i);
+                break;
+            }
+        }
+        if (timeLagg < 0) {
+            Debug.Log("fast");
+        } else {
+            Debug.Log("slow");
         }
     }
 
-    void deleteData() {
-        notesManager.NotesTime.RemoveAt(0);
-        notesManager.LaneNum.RemoveAt(0);
-        notesManager.NoteType.RemoveAt(0);
-        notesManager.NotesObj.RemoveAt(0);
+    void deleteData(int i) {
+        notesManager.NotesTime.RemoveAt(i);
+        notesManager.LaneNum.RemoveAt(i);
+        notesManager.NoteType.RemoveAt(i);
+        notesManager.NotesObj.RemoveAt(i);
     }
 
-    void message(int judge) {
-        Instantiate(MessageObj[judge], new Vector3(notesManager.LaneNum[0] - 3.56f, 0.76f, 0.15f), Quaternion.Euler(45, 0, 0));
+    void message(int judge, int i) {
+        Instantiate(MessageObj[judge], new Vector3(notesManager.LaneNum[i] - 3.56f, 0.76f, 0.15f), Quaternion.Euler(45, 0, 0));
     }
 }
