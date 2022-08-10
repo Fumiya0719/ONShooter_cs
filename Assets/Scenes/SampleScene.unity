@@ -168,6 +168,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   noteNum: 0
+  title: 
   LaneNum: 
   NoteType: 
   NotesTime: []
@@ -207,7 +208,7 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 481700142}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 68fad2fdce979bf41baf4a08479e8443, type: 3}
@@ -308,6 +309,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa685cd1fc9682849bac4935727b334d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  title: 
+  notesManager: {fileID: 0}
 --- !u!4 &481700145
 Transform:
   m_ObjectHideFlags: 0
@@ -1042,6 +1045,7 @@ MonoBehaviour:
   - {fileID: 8868859338858702671, guid: a1c020e12a8ec1047830cbb0b8fe9956, type: 3}
   - {fileID: 2687277177692649561, guid: 6f08fd4724d023d42a0b40ea4c04ed57, type: 3}
   notesManager: {fileID: 264844180}
+  JudgeSlowAndFast: 1
 --- !u!4 &1299416212
 Transform:
   m_ObjectHideFlags: 0
