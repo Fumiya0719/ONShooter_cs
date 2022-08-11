@@ -69,6 +69,7 @@ public class Judge : MonoBehaviour
         notesManager.NotesTime.RemoveAt(i);
         notesManager.LaneNum.RemoveAt(i);
         notesManager.NoteType.RemoveAt(i);
+        notesManager.NotesObj[i].SetActive(false);
         notesManager.NotesObj.RemoveAt(i);
     }
 
