@@ -14,7 +14,7 @@ public class MusicManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        title = "Emargence Vibe";
+        title = "Girl Meets Love";
         song = GetComponent<AudioSource>();
         Music = (AudioClip)Resources.Load("Musics/" + title);
         played = false;

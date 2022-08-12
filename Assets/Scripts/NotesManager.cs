@@ -20,6 +20,16 @@ public class Note
     public int num;
     public int block;
     public int LPB;
+
+    public LongNote[] notes;
+}
+
+[System.Serializable]
+public class LongNote {
+    public int type;
+    public int num;
+    public int block;
+    public int LPB;
 }
 
 public class NotesManager : MonoBehaviour
@@ -32,6 +42,8 @@ public class NotesManager : MonoBehaviour
     public List<float> NotesTime = new List<float>();
     public List<GameObject> NotesObj = new List<GameObject>();
 
+    public Dictionary<string, int> longNotes = new Dictionary<string, int>();
+
     [SerializeField] private float NotesSpeed;
     [SerializeField] private GameObject[] noteObjs;
 
@@ -41,7 +53,7 @@ public class NotesManager : MonoBehaviour
 
     void OnEnable() {
         noteNum = 0;
-        title = "Emargence Vibe2";
+        title = "Girl Meets Love";
         Load(title);
     }
 
@@ -69,12 +81,18 @@ public class NotesManager : MonoBehaviour
                 // 始点のZ座標
                 float startZ = z;
                 // 終点のZ座標
-                float enInterval = 60 / (inputJson.BPM * (float)inputJson.notes[i].notes);
+                float enInterval = 60 / (inputJson.BPM * (float)inputJson.notes[i].notes[0].LPB);
+                float enBeatSec = enInterval * (float)inputJson.notes[i].notes[0].LPB;
+                float enTime = (beatSec * inputJson.notes[i].notes[0].num / (float)inputJson.notes[i].notes[0].LPB) + inputJson.offset * 0.01f;
+
+                float endZ = enTime * NotesSpeed;
 
                 // 始点のX座標
-                Vector3 startX = new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, z);
+                Vector3 startX = new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, startZ);
                 // 終点のX座標
-                Vector3 endX = new Vector3(inputJson.notes[i].notes - 3.56f, 0.55f, z);
+                Vector3 endX = new Vector3(inputJson.notes[i].notes[0].block - 3.56f, 0.55f, endZ);
+                Debug.Log(startX);
+                Debug.Log(endX);
 
                 GenerateLongNote(startX, endX, noteObj);
             }
