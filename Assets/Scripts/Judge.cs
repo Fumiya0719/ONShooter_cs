@@ -72,6 +72,12 @@ public class Judge : MonoBehaviour
         notesManager.NoteType.RemoveAt(i);
         notesManager.NotesObj[i].SetActive(false);
         notesManager.NotesObj.RemoveAt(i);
+        if (notesManager.LongNotesObj[i] != null) {
+            notesManager.LongNotesObj[i].SetActive(false);
+            notesManager.LongNotesObj.RemoveAt(i);
+            notesManager.EndNotesObj[i].SetActive(false);
+            notesManager.EndNotesObj.RemoveAt(i);
+        }
     }
 
     void message(int judge, int i) {

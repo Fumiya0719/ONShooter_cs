@@ -40,17 +40,20 @@ public class NotesManager : MonoBehaviour
     public List<int> LaneNum = new List<int>();
     public List<int> NoteType = new List<int>();
     public List<float> NotesTime = new List<float>();
-    public List<GameObject> NotesObj = new List<GameObject>();
-    public List<GameObject> LongNotesObj = new List<GameObject>();
-    public List<GameObject> EndNotesObj = new List<GameObject>();  
+    public List<List> NotesObj = new List<List>();
+    // public List<GameObject> LongNotesObj = new List<GameObject>();
+    // public List<GameObject> EndNotesObj = new List<GameObject>();  
 
     [SerializeField] public float NotesSpeed;
     [SerializeField] private GameObject[] noteObjs;
+    [SerializeField] private GameObject[] longNoteObjs;
     [SerializeField] private GameObject[] endNoteObjs;
 
     private GameObject noteObj;
+    private GameObject longNoteObj;
     private GameObject endNoteObj;
 
+    private MeshFilter meshFilter;
     private float noteScale = 1.0f;
 
     void OnEnable() {
@@ -64,6 +67,8 @@ public class NotesManager : MonoBehaviour
         Data inputJson = JsonUtility.FromJson<Data>(inputString);
 
         noteNum = inputJson.notes.Length;
+        // ノーツオブジェクトの2次元化(LNとENを含める為)
+        NotesObj.Add(new List<GameObject>());
 
         for (int i = 0; i < inputJson.notes.Length; i++) {
             noteObj = noteObjs[inputJson.notes[i].block];
@@ -78,12 +83,13 @@ public class NotesManager : MonoBehaviour
 
             float z = NotesTime[i] * NotesSpeed;
 
-            NotesObj.Add(Instantiate(noteObj, new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, z), Quaternion.identity));
+            NotesObj[i].Add(Instantiate(noteObj, new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, z), Quaternion.identity));
 
-            // ロングノーツの生成
-            
+            // ロングノーツ(LN)の生成
             if (inputJson.notes[i].type == 2) {
+                longNoteObj = longNoteObjs[inputJson.notes[i].block];
                 endNoteObj = endNoteObjs[inputJson.notes[i].notes[0].block];
+
                 // 始点のZ座標
                 float startZ = z;
                 // 終点のZ座標
@@ -92,44 +98,45 @@ public class NotesManager : MonoBehaviour
                 float enTime = (beatSec * inputJson.notes[i].notes[0].num / (float)inputJson.notes[i].notes[0].LPB) + inputJson.offset * 0.01f;
 
                 float endZ = enTime * NotesSpeed;
-                // ロングノーツ終点にオブジェクトを生成
-                EndNotesObj.Add(Instantiate(endNoteObj, new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, endZ), Quaternion.identity));
+                // LN終点ノーツを追加
+                notesObj[i].Add(Instantiate(endNoteObj, new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, endZ), Quaternion.identity));
 
-                // LN始点と終点の差分
-                float localZ = startZ - endZ;
+                // LN始点のX座標
+                Vector3 startPos = new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, z);
+                // LN終点のX座標
+                Vector3 endPos = new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, endZ);
+               
+                GenerateLongNote(startPos, endPos, longNoteObj, inputJson.notes[i].block);
 
-                // 始点のX座標
-                Vector3 startPos = new Vector3(0, 0, 0);
-                // 終点のX座標
-                Vector3 endPos = new Vector3(0, 0, localZ);
-
-                LineRenderer line = endNoteObj.GetComponent<LineRenderer>();
-
-                var pos = new Vector3[] { startPos, endPos };
-                line.SetPositions(pos);
+                // LNを追加
+                notesObj.Add(Instantiate(longNoteObj, startPos, Quaternion.identity));
             }
         }
     }
 
-    public void GenerateLongNote(Vector3 startPos, Vector3 endPos, GameObject noteObj, int block) {
-        // Line Rendererの生成
-        Debug.Log(startPos);
-        Debug.Log(endPos);
-        Debug.Log(noteObj);
-        Debug.Log(block);
-        var Line = noteObj.AddComponent<LineRenderer>();
-        Debug.Log(Line);
+    public void GenerateLongNote(Vector3 startPos, Vector3 endPos, GameObject ln, int block) {        
+        Mesh mesh = new Mesh();
 
-        // Debug.Log(Line);
+        Vector3[] vertices = new Vector3[4];
+        int[] triangles = new int[6];
 
-        var pos = new Vector3[] {
-            startPos,
-            endPos
-        };
+        Vector3 lnLength = (endPos - startPos) * 2.3f;
 
-        Line.SetPositions(pos);
+        vertices[0] = new Vector3(-noteScale / 2, 0, 0);
+        vertices[1] = new Vector3(noteScale / 2, 0, 0);
+        vertices[2] = lnLength + new Vector3(-noteScale / 2, 0, 0);
+        vertices[3] = lnLength + new Vector3(noteScale / 2, 0, 0);
+        Debug.Log(vertices[0]);
+        Debug.Log(vertices[1]);
+        Debug.Log(vertices[2]);
+        Debug.Log(vertices[3]);
 
-        Line.startWidth = noteScale;
-        Line.endWidth = noteScale;
+        triangles = new int[6] {0, 2, 1, 3, 1, 2};
+
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+        mesh.RecalculateNormals();
+
+        ln.GetComponent<MeshFilter>().mesh = mesh;
     }
 }

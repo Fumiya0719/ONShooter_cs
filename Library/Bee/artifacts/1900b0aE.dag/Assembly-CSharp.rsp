@@ -352,6 +352,7 @@
 "Assets/Scripts/EntireManager.cs"
 "Assets/Scripts/HitLight.cs"
 "Assets/Scripts/Judge.cs"
+"Assets/Scripts/LongNoteManager.cs"
 "Assets/Scripts/MusicManager.cs"
 "Assets/Scripts/Notes.cs"
 "Assets/Scripts/NotesManager.cs"
