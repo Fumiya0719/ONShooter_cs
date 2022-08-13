@@ -173,6 +173,8 @@ MonoBehaviour:
   NoteType: 
   NotesTime: []
   NotesObj: []
+  LongNotesObj: []
+  EndNotesObj: []
   NotesSpeed: 15
   noteObjs:
   - {fileID: 0}
@@ -182,6 +184,16 @@ MonoBehaviour:
   - {fileID: 8568734267903933936, guid: 0cb7846361fd9924b90b4b9e4beff503, type: 3}
   - {fileID: 664461860636297247, guid: 1dd9e1f9427def147aa43527185e2d1b, type: 3}
   - {fileID: 985847490223719037, guid: 690a895c562e8654389c8d6f0fa0de93, type: 3}
+  - {fileID: 0}
+  longNoteObjs: []
+  endNoteObjs:
+  - {fileID: 0}
+  - {fileID: 1630748133366090742, guid: 26494175deee6d24b99e8d5c849128a7, type: 3}
+  - {fileID: 1584471395430695986, guid: d8f032aba9355f64d84e7f5b3239cdd4, type: 3}
+  - {fileID: 7000333220911609278, guid: 9874eea96694a874eb9827061dc7063d, type: 3}
+  - {fileID: 1630748133366090742, guid: 26494175deee6d24b99e8d5c849128a7, type: 3}
+  - {fileID: 1584471395430695986, guid: d8f032aba9355f64d84e7f5b3239cdd4, type: 3}
+  - {fileID: 7000333220911609278, guid: 9874eea96694a874eb9827061dc7063d, type: 3}
   - {fileID: 0}
 --- !u!1 &481700142
 GameObject:
@@ -208,10 +220,10 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 481700142}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 68fad2fdce979bf41baf4a08479e8443, type: 3}
+  m_audioClip: {fileID: 8300000, guid: a8f88411099a3bd498cb20b489dc07ac, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -1841,60 +1853,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &6860453575823314714
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 7000333220911609275, guid: 9874eea96694a874eb9827061dc7063d, type: 3}
-      propertyPath: m_RootOrder
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 7000333220911609275, guid: 9874eea96694a874eb9827061dc7063d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7000333220911609275, guid: 9874eea96694a874eb9827061dc7063d, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7000333220911609275, guid: 9874eea96694a874eb9827061dc7063d, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7000333220911609275, guid: 9874eea96694a874eb9827061dc7063d, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7000333220911609275, guid: 9874eea96694a874eb9827061dc7063d, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7000333220911609275, guid: 9874eea96694a874eb9827061dc7063d, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7000333220911609275, guid: 9874eea96694a874eb9827061dc7063d, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7000333220911609275, guid: 9874eea96694a874eb9827061dc7063d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7000333220911609275, guid: 9874eea96694a874eb9827061dc7063d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7000333220911609275, guid: 9874eea96694a874eb9827061dc7063d, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7000333220911609278, guid: 9874eea96694a874eb9827061dc7063d, type: 3}
-      propertyPath: m_Name
-      value: enBlue
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 9874eea96694a874eb9827061dc7063d, type: 3}

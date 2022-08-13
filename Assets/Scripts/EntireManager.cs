@@ -20,7 +20,6 @@ public class EntireManager : MonoBehaviour
     public int Hit;
     public int Miss;
 
-    // Start is called before the first frame update
     void Awake()
     {
         if (instance == null) {
@@ -29,11 +28,5 @@ public class EntireManager : MonoBehaviour
         } else {
             Destroy(this.gameObject);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

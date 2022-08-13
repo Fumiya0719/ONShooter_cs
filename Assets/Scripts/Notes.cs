@@ -5,9 +5,6 @@ using UnityEngine;
 public class Notes : MonoBehaviour
 {
     // ハイスピ設定
-    [SerializeField] NotesManager notesManager;
-    // Update is called once per frame
-
     float HighSpeed = 15;
     bool start;
     void Update()

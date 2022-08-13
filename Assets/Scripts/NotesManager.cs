@@ -41,13 +41,15 @@ public class NotesManager : MonoBehaviour
     public List<int> NoteType = new List<int>();
     public List<float> NotesTime = new List<float>();
     public List<GameObject> NotesObj = new List<GameObject>();
+    public List<GameObject> LongNotesObj = new List<GameObject>();
+    public List<GameObject> EndNotesObj = new List<GameObject>();  
 
-    public Dictionary<string, int> longNotes = new Dictionary<string, int>();
-
-    [SerializeField] private float NotesSpeed;
+    [SerializeField] public float NotesSpeed;
     [SerializeField] private GameObject[] noteObjs;
+    [SerializeField] private GameObject[] endNoteObjs;
 
     private GameObject noteObj;
+    private GameObject endNoteObj;
 
     private float noteScale = 1.0f;
 
@@ -76,8 +78,12 @@ public class NotesManager : MonoBehaviour
 
             float z = NotesTime[i] * NotesSpeed;
 
-            // ロングノーツの場合、専用ジェネレーターにかける
+            NotesObj.Add(Instantiate(noteObj, new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, z), Quaternion.identity));
+
+            // ロングノーツの生成
+            
             if (inputJson.notes[i].type == 2) {
+                endNoteObj = endNoteObjs[inputJson.notes[i].notes[0].block];
                 // 始点のZ座標
                 float startZ = z;
                 // 終点のZ座標
@@ -86,37 +92,44 @@ public class NotesManager : MonoBehaviour
                 float enTime = (beatSec * inputJson.notes[i].notes[0].num / (float)inputJson.notes[i].notes[0].LPB) + inputJson.offset * 0.01f;
 
                 float endZ = enTime * NotesSpeed;
+                // ロングノーツ終点にオブジェクトを生成
+                EndNotesObj.Add(Instantiate(endNoteObj, new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, endZ), Quaternion.identity));
+
+                // LN始点と終点の差分
+                float localZ = startZ - endZ;
 
                 // 始点のX座標
-                Vector3 startX = new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, startZ);
+                Vector3 startPos = new Vector3(0, 0, 0);
                 // 終点のX座標
-                Vector3 endX = new Vector3(inputJson.notes[i].notes[0].block - 3.56f, 0.55f, endZ);
-                Debug.Log(startX);
-                Debug.Log(endX);
+                Vector3 endPos = new Vector3(0, 0, localZ);
 
-                GenerateLongNote(startX, endX, noteObj);
+                LineRenderer line = endNoteObj.GetComponent<LineRenderer>();
+
+                var pos = new Vector3[] { startPos, endPos };
+                line.SetPositions(pos);
             }
-            NotesObj.Add(Instantiate(noteObj, new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, z), Quaternion.identity));
         }
     }
 
-    private void GenerateLongNote(Vector3 startX, Vector3 endX, GameObject noteObj) {
-        // メッシュの生成
-        Mesh mesh = new Mesh();
-        noteObj.GetComponent<MeshFilter>().mesh = mesh;
+    public void GenerateLongNote(Vector3 startPos, Vector3 endPos, GameObject noteObj, int block) {
+        // Line Rendererの生成
+        Debug.Log(startPos);
+        Debug.Log(endPos);
+        Debug.Log(noteObj);
+        Debug.Log(block);
+        var Line = noteObj.AddComponent<LineRenderer>();
+        Debug.Log(Line);
 
-        Vector3[] Vertices = new Vector3[4];
-        int[] triangles = new int[6];
+        // Debug.Log(Line);
 
-        Vertices[0] = startX + new Vector3(-noteScale / 2, 0, 0);
-        Vertices[1] = startX + new Vector3(noteScale / 2, 0, 0);
-        Vertices[2] = endX + new Vector3(-noteScale / 2, 0, 0);
-        Vertices[3] = endX + new Vector3(noteScale / 2, 0, 0);
+        var pos = new Vector3[] {
+            startPos,
+            endPos
+        };
 
-        triangles = new int[6] {0,2,1,3,1,2};
+        Line.SetPositions(pos);
 
-        mesh.vertices = Vertices;
-        mesh.triangles = triangles;
-        mesh.RecalculateNormals();
+        Line.startWidth = noteScale;
+        Line.endWidth = noteScale;
     }
 }

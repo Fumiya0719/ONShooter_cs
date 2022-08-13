@@ -22,7 +22,8 @@ public class Judge : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.RightShift)) JudgeNotes(7);
        
         // ノーツを叩くタイミングから一定時間経過したらミス判定
-        if (Time.time > notesManager.NotesTime[0] + 0.1 + EntireManager.instance.StartTime) {
+        if (EntireManager.instance.Start && Time.time > notesManager.NotesTime[0] + 0.1 + EntireManager.instance.StartTime) {
+            Debug.Log(EntireManager.instance.StartTime);
             message(3, 0);
             deleteData(0);
             EntireManager.instance.Miss++;

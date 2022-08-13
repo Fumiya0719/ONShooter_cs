@@ -1,4 +1,4 @@
-﻿{"name":"Girl Meets Love","maxBlock":8,"BPM":185,"offset":0,"notes":[
+﻿{"name":"Girl Meets Love","maxBlock":8,"BPM":185,"offset":64,"notes":[
     {"LPB":4,"num":0,"block":6,"type":2,"notes":[{"LPB":4,"num":4,"block":6,"type":2,"notes":[]}]},
     {"LPB":4,"num":6,"block":5,"type":1,"notes":[]},
     {"LPB":4,"num":8,"block":5,"type":2,"notes":[{"LPB":4,"num":12,"block":5,"type":2,"notes":[]}]},
@@ -66,4 +66,5 @@
     {"LPB":4,"num":128,"block":3,"type":1,"notes":[]},
     {"LPB":4,"num":128,"block":4,"type":1,"notes":[]},
     {"LPB":4,"num":128,"block":5,"type":1,"notes":[]},
-    {"LPB":4,"num":128,"block":6,"type":1,"notes":[]}]}
+    {"LPB":4,"num":128,"block":6,"type":1,"notes":[]},
+    {"LPB":4,"num":200,"block":6,"type":1,"notes":[]}]}
