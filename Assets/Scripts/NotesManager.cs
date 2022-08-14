@@ -37,12 +37,12 @@ public class NotesManager : MonoBehaviour
     public int noteNum;
     // 曲名
     public string title;
+    // LNの判定に使う用(1/2リズム)
+    public float longNoteInterval;
     public List<int> LaneNum = new List<int>();
     public List<int> NoteType = new List<int>();
-    public List<float> NotesTime = new List<float>();
-    public List<GameObject[]> NotesObj = new List<GameObject[]>();
-    // public List<GameObject> LongNotesObj = new List<GameObject>();
-    // public List<GameObject> EndNotesObj = new List<GameObject>();  
+    public List<float[]> NotesTime = new List<float[]>();
+    public List<GameObject[]> NotesObj = new List<GameObject[]>(); 
 
     [SerializeField] public float NotesSpeed;
     [SerializeField] private GameObject[] noteObjs;
@@ -74,14 +74,14 @@ public class NotesManager : MonoBehaviour
             noteObj = noteObjs[inputJson.notes[i].block];
 
             float interval = 60 / (inputJson.BPM * (float)inputJson.notes[i].LPB);
+            longNoteInterval = 60 / (inputJson.BPM * 2);
             float beatSec = interval * (float)inputJson.notes[i].LPB;
-            float time = (beatSec * inputJson.notes[i].num / (float)inputJson.notes[i].LPB) + inputJson.offset * 0.01f;
+            float notesTimeQueue = (beatSec * inputJson.notes[i].num / (float)inputJson.notes[i].LPB) + inputJson.offset * 0.01f;
 
-            NotesTime.Add(time);
             LaneNum.Add(inputJson.notes[i].block);
             NoteType.Add(inputJson.notes[i].type);
 
-            float z = NotesTime[i] * NotesSpeed;
+            float z = notesTimeQueue * NotesSpeed;
 
             GameObject noteQueue = Instantiate(noteObj, new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, z), Quaternion.identity);
 
@@ -95,9 +95,9 @@ public class NotesManager : MonoBehaviour
                 // 終点のZ座標
                 float enInterval = 60 / (inputJson.BPM * (float)inputJson.notes[i].notes[0].LPB);
                 float enBeatSec = enInterval * (float)inputJson.notes[i].notes[0].LPB;
-                float enTime = (beatSec * inputJson.notes[i].notes[0].num / (float)inputJson.notes[i].notes[0].LPB) + inputJson.offset * 0.01f;
+                float enTimeQueue = (beatSec * inputJson.notes[i].notes[0].num / (float)inputJson.notes[i].notes[0].LPB) + inputJson.offset * 0.01f;
 
-                float endZ = enTime * NotesSpeed;
+                float endZ = enTimeQueue * NotesSpeed;
                 // LN終点ノーツを追加
                 GameObject endNoteQueue = (Instantiate(endNoteObj, new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, endZ), Quaternion.identity));
 
@@ -111,12 +111,13 @@ public class NotesManager : MonoBehaviour
                 // LNを追加
                 GameObject longNoteQueue = Instantiate(longNoteObj, startPos, Quaternion.identity);
 
-                // リストに譜面データを挿入
+                // 各種リストに譜面データを挿入
+                NotesTime.Add(new float[2] {notesTimeQueue, enTimeQueue});
                 NotesObj.Add(new GameObject[3] {noteQueue, longNoteQueue, endNoteQueue});
             } else {
+                NotesTime.Add(new float[1] {notesTimeQueue});
                 NotesObj.Add(new GameObject[1] {noteQueue});
             }
-            Debug.Log(NotesObj);
         }
     }
 
@@ -126,16 +127,12 @@ public class NotesManager : MonoBehaviour
         Vector3[] vertices = new Vector3[4];
         int[] triangles = new int[6];
 
-        Vector3 lnLength = (endPos - startPos) * 2.3f;
+        Vector3 lnLength = (endPos - startPos) * 2.25f;
 
         vertices[0] = new Vector3(-noteScale / 2, 0, 0);
         vertices[1] = new Vector3(noteScale / 2, 0, 0);
         vertices[2] = lnLength + new Vector3(-noteScale / 2, 0, 0);
         vertices[3] = lnLength + new Vector3(noteScale / 2, 0, 0);
-        Debug.Log(vertices[0]);
-        Debug.Log(vertices[1]);
-        Debug.Log(vertices[2]);
-        Debug.Log(vertices[3]);
 
         triangles = new int[6] {0, 2, 1, 3, 1, 2};
 
