@@ -67,17 +67,18 @@ public class Judge : MonoBehaviour
     }
 
     void deleteData(int i) {
+        Debug.Log(notesManager.NotesObj[i]);
         notesManager.NotesTime.RemoveAt(i);
         notesManager.LaneNum.RemoveAt(i);
         notesManager.NoteType.RemoveAt(i);
-        notesManager.NotesObj[i].SetActive(false);
-        notesManager.NotesObj.RemoveAt(i);
-        if (notesManager.LongNotesObj[i] != null) {
-            notesManager.LongNotesObj[i].SetActive(false);
-            notesManager.LongNotesObj.RemoveAt(i);
-            notesManager.EndNotesObj[i].SetActive(false);
-            notesManager.EndNotesObj.RemoveAt(i);
+        notesManager.NotesObj[i][0].SetActive(false);
+        
+        if (notesManager.NotesObj[i].Length != 1) {
+            notesManager.NotesObj[i][1].SetActive(false);
+            notesManager.NotesObj[i][2].SetActive(false);
         }
+
+        notesManager.NotesObj.RemoveAt(i);
     }
 
     void message(int judge, int i) {

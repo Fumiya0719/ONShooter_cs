@@ -40,7 +40,7 @@ public class NotesManager : MonoBehaviour
     public List<int> LaneNum = new List<int>();
     public List<int> NoteType = new List<int>();
     public List<float> NotesTime = new List<float>();
-    public List<List> NotesObj = new List<List>();
+    public List<GameObject[]> NotesObj = new List<GameObject[]>();
     // public List<GameObject> LongNotesObj = new List<GameObject>();
     // public List<GameObject> EndNotesObj = new List<GameObject>();  
 
@@ -63,14 +63,14 @@ public class NotesManager : MonoBehaviour
     }
 
     private void Load(string title) {
+
         string inputString = Resources.Load<TextAsset>(title).ToString();
         Data inputJson = JsonUtility.FromJson<Data>(inputString);
 
         noteNum = inputJson.notes.Length;
-        // ノーツオブジェクトの2次元化(LNとENを含める為)
-        NotesObj.Add(new List<GameObject>());
 
         for (int i = 0; i < inputJson.notes.Length; i++) {
+
             noteObj = noteObjs[inputJson.notes[i].block];
 
             float interval = 60 / (inputJson.BPM * (float)inputJson.notes[i].LPB);
@@ -83,7 +83,7 @@ public class NotesManager : MonoBehaviour
 
             float z = NotesTime[i] * NotesSpeed;
 
-            NotesObj[i].Add(Instantiate(noteObj, new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, z), Quaternion.identity));
+            GameObject noteQueue = Instantiate(noteObj, new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, z), Quaternion.identity);
 
             // ロングノーツ(LN)の生成
             if (inputJson.notes[i].type == 2) {
@@ -99,7 +99,7 @@ public class NotesManager : MonoBehaviour
 
                 float endZ = enTime * NotesSpeed;
                 // LN終点ノーツを追加
-                notesObj[i].Add(Instantiate(endNoteObj, new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, endZ), Quaternion.identity));
+                GameObject endNoteQueue = (Instantiate(endNoteObj, new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, endZ), Quaternion.identity));
 
                 // LN始点のX座標
                 Vector3 startPos = new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, z);
@@ -109,8 +109,14 @@ public class NotesManager : MonoBehaviour
                 GenerateLongNote(startPos, endPos, longNoteObj, inputJson.notes[i].block);
 
                 // LNを追加
-                notesObj.Add(Instantiate(longNoteObj, startPos, Quaternion.identity));
+                GameObject longNoteQueue = Instantiate(longNoteObj, startPos, Quaternion.identity);
+
+                // リストに譜面データを挿入
+                NotesObj.Add(new GameObject[3] {noteQueue, longNoteQueue, endNoteQueue});
+            } else {
+                NotesObj.Add(new GameObject[1] {noteQueue});
             }
+            Debug.Log(NotesObj);
         }
     }
 

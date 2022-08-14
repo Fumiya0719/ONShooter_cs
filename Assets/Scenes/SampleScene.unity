@@ -185,7 +185,15 @@ MonoBehaviour:
   - {fileID: 664461860636297247, guid: 1dd9e1f9427def147aa43527185e2d1b, type: 3}
   - {fileID: 985847490223719037, guid: 690a895c562e8654389c8d6f0fa0de93, type: 3}
   - {fileID: 0}
-  longNoteObjs: []
+  longNoteObjs:
+  - {fileID: 0}
+  - {fileID: 1381219308681862490, guid: 9b29b2b7bbc67e74fbc3d374061b3c05, type: 3}
+  - {fileID: 3121160267400816057, guid: 5045c325c6df11546b871949202bf6ce, type: 3}
+  - {fileID: 5929069037846591452, guid: c5899bc24c9f0a948abc143c42622782, type: 3}
+  - {fileID: 1381219308681862490, guid: 9b29b2b7bbc67e74fbc3d374061b3c05, type: 3}
+  - {fileID: 3121160267400816057, guid: 5045c325c6df11546b871949202bf6ce, type: 3}
+  - {fileID: 5929069037846591452, guid: c5899bc24c9f0a948abc143c42622782, type: 3}
+  - {fileID: 0}
   endNoteObjs:
   - {fileID: 0}
   - {fileID: 1630748133366090742, guid: 26494175deee6d24b99e8d5c849128a7, type: 3}
@@ -972,7 +980,7 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 0, b: 0.7235627, a: 1}
+      key0: {r: 1, g: 1, b: 1, a: 1}
       key1: {r: 1, g: 1, b: 1, a: 1}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
