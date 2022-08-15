@@ -58,7 +58,7 @@ public class NotesManager : MonoBehaviour
 
     void OnEnable() {
         noteNum = 0;
-        title = "Girl Meets Love";
+        title = "Girl Meets Love2";
         Load(title);
     }
 
