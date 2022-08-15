@@ -63,25 +63,62 @@ public class Judge : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.RightShift)) JudgeNotes(7,7);
 
                 // ロングノーツの処理
-                if (Input.GetKey(KeyCode.LeftShift)) JudgeLongNotes(0,0);
-                if (Input.GetKey(KeyCode.S)) JudgeLongNotes(1,4);
-                if (Input.GetKey(KeyCode.D)) JudgeLongNotes(2,5);
-                if (Input.GetKey(KeyCode.F)) JudgeLongNotes(3,6);
-                if (Input.GetKey(KeyCode.Equals)) JudgeLongNotes(4,1);
-                if (Input.GetKey(KeyCode.Semicolon)) JudgeLongNotes(5,2);
-                if (Input.GetKey(KeyCode.RightBracket)) JudgeLongNotes(6,3);
-                if (Input.GetKey(KeyCode.RightShift)) JudgeLongNotes(7,7);
+                // if (Input.GetKey(KeyCode.LeftShift)) JudgeLongNotes(0,0);
+                // if (Input.GetKey(KeyCode.S)) JudgeLongNotes(1,4);
+                // if (Input.GetKey(KeyCode.D)) JudgeLongNotes(2,5);
+                // if (Input.GetKey(KeyCode.F)) JudgeLongNotes(3,6);
+                // if (Input.GetKey(KeyCode.Equals)) JudgeLongNotes(4,1);
+                // if (Input.GetKey(KeyCode.Semicolon)) JudgeLongNotes(5,2);
+                // if (Input.GetKey(KeyCode.RightBracket)) JudgeLongNotes(6,3);
+                // if (Input.GetKey(KeyCode.RightShift)) JudgeLongNotes(7,7);
+                // if (Input.GetKey(KeyCode.RightBracket)) {
+                //     for (int i = 0; i < noteQueue.Count; i++) {
+                //         if (notesManager.NotesObj[noteQueue[i]].Length == 1) continue;
+                //         if (notesManager.LaneNum[noteQueue[i]] == 6) {
+                //             notesManager.NotesObj[noteQueue[i]][1].layer = LayerMask.NameToLayer("LongNote");
+                //         }
+                //         Debug.Log("test");
+                //     }
+                // }
+                JudgeLongNotes();
             }
         }     
     }
 
-    void JudgeLongNotes(params int[] args) {
+    void isPuttingKey(int i, bool KeyCode) {
+        if (KeyCode) {
+            notesManager.NotesObj[noteQueue[i]][1].layer = LayerMask.NameToLayer("LongNote");
+            float enTime = Time.time - (notesManager.NotesTime[noteQueue[i]][1] + EntireManager.instance.StartTime);
+            if (enTime < 0) {
+                message(0, noteQueue[i]);
+                EntireManager.instance.CBreak++;
+                notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
+                notesManager.NotesObj[noteQueue[i]][1].SetActive(false);
+                notesManager.NotesObj[noteQueue[i]][2].SetActive(false);
+            }
+        } else {
+            notesManager.NotesObj[noteQueue[i]][1].layer = LayerMask.NameToLayer("Default");
+        }
+    }
+
+    void JudgeLongNotes() {
         for (int i = 0; i < noteQueue.Count; i++) {
             if (notesManager.NotesObj[noteQueue[i]].Length == 1) continue;
-            float timeLag = Time.time - (notesManager.NotesTime[noteQueue[i]][0] + EntireManager.instance.StartTime);
-            if (
-
-            )
+            // Debug.Log(noteQueue[i]);
+            if (notesManager.LaneNum[noteQueue[i]] == 0) {
+                isPuttingKey(i, Input.GetKey(KeyCode.LeftShift));
+            } else if (notesManager.LaneNum[noteQueue[i]] == 1 || notesManager.LaneNum[noteQueue[i]] == 4) {
+                isPuttingKey(i, Input.GetKey(KeyCode.S));
+                isPuttingKey(i, Input.GetKey(KeyCode.Equals));
+            } else if (notesManager.LaneNum[noteQueue[i]] == 2 || notesManager.LaneNum[noteQueue[i]] == 5) {
+                isPuttingKey(i, Input.GetKey(KeyCode.D));
+                isPuttingKey(i, Input.GetKey(KeyCode.Semicolon));
+            } else if (notesManager.LaneNum[noteQueue[i]] == 3 || notesManager.LaneNum[noteQueue[i]] == 6) {
+                isPuttingKey(i, Input.GetKey(KeyCode.F));
+                isPuttingKey(i, Input.GetKey(KeyCode.RightBracket));
+            } else if (notesManager.LaneNum[noteQueue[i]] == 7) {
+                isPuttingKey(i, Input.GetKey(KeyCode.RightShift));
+            }
         }
     }
 
