@@ -78,55 +78,32 @@ public class Judge : MonoBehaviour
     void IsExistLongNotes() {
         for (int i = 0; i < noteQueue.Count; i++) {
             if (notesManager.NotesObj[noteQueue[i]].Length == 1) continue;
-            if (Input.GetKey(KeyCode.LeftShift) && notesManager.LaneNum[noteQueue[i]] == 0) {
-                JudgeLongNotes(i);
-            }
-            if ((Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.Equals)) && (notesManager.LaneNum[noteQueue[i]] == 1 || notesManager.LaneNum[noteQueue[i]] == 4)) {
-                JudgeLongNotes(i);
-            }
-            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.Semicolon) && (notesManager.LaneNum[noteQueue[i]] == 2 || notesManager.LaneNum[noteQueue[i]] == 5)) {
-                JudgeLongNotes(i);
-            }
-            if (Input.GetKey(KeyCode.F) || Input.GetKey(KeyCode.RightBracket) && (notesManager.LaneNum[noteQueue[i]] == 3 || notesManager.LaneNum[noteQueue[i]] == 6)) {
-                JudgeLongNotes(i);
-            }
-            if (Input.GetKey(KeyCode.RightShift) && notesManager.LaneNum[noteQueue[i]] == 7) {
-                JudgeLongNotes(i);
-            }
-
-            // if (notesManager.LaneNum[noteQueue[i]] == 0) {
-            //     JudgeLongNotes(i, Input.GetKey(KeyCode.LeftShift));
-            // } else if (notesManager.LaneNum[noteQueue[i]] == 1) {
-            //     JudgeLongNotes(i, Input.GetKey(KeyCode.S));
-            // } else if (notesManager.LaneNum[noteQueue[i]] == 2) {
-            //     JudgeLongNotes(i, Input.GetKey(KeyCode.D));
-            // } else if (notesManager.LaneNum[noteQueue[i]] == 3) {
-            //     JudgeLongNotes(i, Input.GetKey(KeyCode.F));
-            // } else if (notesManager.LaneNum[noteQueue[i]] == 4) {
-            //     JudgeLongNotes(i, Input.GetKey(KeyCode.Equals));
-            // } else if (notesManager.LaneNum[noteQueue[i]] == 5) {
-            //     JudgeLongNotes(i, Input.GetKey(KeyCode.Semicolon));
-            // } else if (notesManager.LaneNum[noteQueue[i]] == 6) {
-            //     JudgeLongNotes(i, Input.GetKey(KeyCode.RightBracket));
-            // } else if (notesManager.LaneNum[noteQueue[i]] == 7) {
-            //     JudgeLongNotes(i, Input.GetKey(KeyCode.RightShift));
-            // }
+            if (Input.GetKey(KeyCode.LeftShift)) JudgeLongNotes(i, 0,0);
+            if (Input.GetKey(KeyCode.S)) JudgeLongNotes(i, 1,4);
+            if (Input.GetKey(KeyCode.D)) JudgeLongNotes(i, 2,5);
+            if (Input.GetKey(KeyCode.F)) JudgeLongNotes(i, 3,6);
+            if (Input.GetKey(KeyCode.Equals)) JudgeLongNotes(i, 4,1);
+            if (Input.GetKey(KeyCode.Semicolon)) JudgeLongNotes(i, 5,2);
+            if (Input.GetKey(KeyCode.RightBracket)) JudgeLongNotes(i, 6,3);
+            if (Input.GetKey(KeyCode.RightShift)) JudgeLongNotes(i, 7,7);
         }
     }
 
-    void JudgeLongNotes(int i) { 
-        notesManager.NotesObj[noteQueue[i]][1].layer = LayerMask.NameToLayer("LongNote");
-        float enTime = Time.time - (notesManager.NotesTime[noteQueue[i]][1] + EntireManager.instance.StartTime);
-        if (notesManager.NotesObj[noteQueue[i]][2].activeSelf && enTime > -0.1f) {
-            if (enTime > 0) {
-                message(0, noteQueue[i]);
-                EntireManager.instance.CBreak++;
-                notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
-                notesManager.NotesObj[noteQueue[i]][1].SetActive(false);
-                notesManager.NotesObj[noteQueue[i]][2].SetActive(false);
-                noteQueue.RemoveAt(i);
-            }
-        }     
+    void JudgeLongNotes(int i, params int[] args) { 
+        if (notesManager.LaneNum[noteQueue[i]] == args[0] || notesManager.LaneNum[noteQueue[i]] == args[1]) {
+            notesManager.NotesObj[noteQueue[i]][1].layer = LayerMask.NameToLayer("LongNote");
+            float enTime = Time.time - (notesManager.NotesTime[noteQueue[i]][1] + EntireManager.instance.StartTime);
+            if (notesManager.NotesObj[noteQueue[i]][2].activeSelf && enTime > -0.1f) {
+                if (enTime > 0) {
+                    message(0, noteQueue[i]);
+                    EntireManager.instance.CBreak++;
+                    notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
+                    notesManager.NotesObj[noteQueue[i]][1].SetActive(false);
+                    notesManager.NotesObj[noteQueue[i]][2].SetActive(false);
+                    noteQueue.RemoveAt(i);
+                }
+            }     
+        }
     }
 
     void JudgeNotes(params int[] args) {
