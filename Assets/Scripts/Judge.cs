@@ -19,7 +19,7 @@ public class Judge : MonoBehaviour
     */
 
     private int noteCount = 0;
-    private float judgeTimeABS = 0.1f;
+    private float judgeTimeABS = 0.10f;
     private List<int> noteQueue = new List<int>();
     void Update()
     {
@@ -37,35 +37,62 @@ public class Judge : MonoBehaviour
                 // 判定ライン内にノーツがある場合全ノーツを検索(LN対応)
                 for (int i = 0; i < noteQueue.Count; i++) {
                     if (notesManager.NotesTime[noteQueue[i]].Length == 1) {
-                        notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
-                        if (Time.time > EntireManager.instance.StartTime + notesManager.NotesTime[noteQueue[i]][0] + judgeTimeABS) noteQueue.RemoveAt(i);
+                        if (Time.time > EntireManager.instance.StartTime + notesManager.NotesTime[noteQueue[i]][0] + judgeTimeABS) {
+                            message(3, noteQueue[i]);
+                            notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
+                            noteQueue.RemoveAt(i);
+                        } 
                     } else if (notesManager.NotesTime[noteQueue[i]].Length == 2) {
-                        notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
-                        notesManager.NotesObj[noteQueue[i]][1].SetActive(false);
-                        notesManager.NotesObj[noteQueue[i]][2].SetActive(false);
-                        if (Time.time > EntireManager.instance.StartTime + notesManager.NotesTime[noteQueue[i]][1] + judgeTimeABS) noteQueue.RemoveAt(i);
+                        if (Time.time > EntireManager.instance.StartTime + notesManager.NotesTime[noteQueue[i]][1] + judgeTimeABS) {
+                            notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
+                            notesManager.NotesObj[noteQueue[i]][1].SetActive(false);
+                            notesManager.NotesObj[noteQueue[i]][2].SetActive(false);
+                            noteQueue.RemoveAt(i);
+                        } 
                     }
                 }
 
                 // キー入力がされた際の処理
-                if (Input.GetKeyDown(KeyCode.LeftShift)) JudgeNotes(0);
-                if (Input.GetKeyDown(KeyCode.S)) JudgeNotes(1);
-                if (Input.GetKeyDown(KeyCode.D)) JudgeNotes(2);
-                if (Input.GetKeyDown(KeyCode.F)) JudgeNotes(3);
-                if (Input.GetKeyDown(KeyCode.Equals)) JudgeNotes(4);
-                if (Input.GetKeyDown(KeyCode.Semicolon)) JudgeNotes(5);
-                if (Input.GetKeyDown(KeyCode.RightBracket)) JudgeNotes(6);
-                if (Input.GetKeyDown(KeyCode.RightShift)) JudgeNotes(7);
+                if (Input.GetKeyDown(KeyCode.LeftShift)) JudgeNotes(0,0);
+                if (Input.GetKeyDown(KeyCode.S)) JudgeNotes(1,4);
+                if (Input.GetKeyDown(KeyCode.D)) JudgeNotes(2,5);
+                if (Input.GetKeyDown(KeyCode.F)) JudgeNotes(3,6);
+                if (Input.GetKeyDown(KeyCode.Equals)) JudgeNotes(4,1);
+                if (Input.GetKeyDown(KeyCode.Semicolon)) JudgeNotes(5,2);
+                if (Input.GetKeyDown(KeyCode.RightBracket)) JudgeNotes(6,3);
+                if (Input.GetKeyDown(KeyCode.RightShift)) JudgeNotes(7,7);
+
+                // ロングノーツの処理
+                if (Input.GetKey(KeyCode.LeftShift)) JudgeLongNotes(0,0);
+                if (Input.GetKey(KeyCode.S)) JudgeLongNotes(1,4);
+                if (Input.GetKey(KeyCode.D)) JudgeLongNotes(2,5);
+                if (Input.GetKey(KeyCode.F)) JudgeLongNotes(3,6);
+                if (Input.GetKey(KeyCode.Equals)) JudgeLongNotes(4,1);
+                if (Input.GetKey(KeyCode.Semicolon)) JudgeLongNotes(5,2);
+                if (Input.GetKey(KeyCode.RightBracket)) JudgeLongNotes(6,3);
+                if (Input.GetKey(KeyCode.RightShift)) JudgeLongNotes(7,7);
             }
         }     
     }
 
-    void JudgeNotes(int index) {
-        for (int i = 0; i < ; i++) {
-            float timeLag = Time.time - (notesManager.NotesTime[i][0] + EntireManager.instance.StartTime);
+    void JudgeLongNotes(params int[] args) {
+        for (int i = 0; i < noteQueue.Count; i++) {
+            if (notesManager.NotesObj[noteQueue[i]].Length == 1) continue;
+            float timeLag = Time.time - (notesManager.NotesTime[noteQueue[i]][0] + EntireManager.instance.StartTime);
+            if (
+
+            )
+        }
+    }
+
+    void JudgeNotes(params int[] args) {
+        for (int i = 0; i < noteQueue.Count; i++) {
+            float timeLag = Time.time - (notesManager.NotesTime[noteQueue[i]][0] + EntireManager.instance.StartTime);
             float timeLagABS = Mathf.Abs(timeLag);
                
-            if (timeLagABS <= 0.10 && notesManager.LaneNum[i] == index) {
+            if (timeLagABS <= 0.10 && 
+                (notesManager.LaneNum[noteQueue[i]] == args[0] ||
+                notesManager.LaneNum[noteQueue[i]] == args[1])) {
                 if (JudgeSlowAndFast) {
                     if (timeLag < 0) {
                         Debug.Log("fast");
@@ -75,16 +102,18 @@ public class Judge : MonoBehaviour
                 }
 
                 if (timeLagABS <= 0.033) {
-                    message(0, i);
+                    message(0, noteQueue[i]);
                     EntireManager.instance.CBreak++;
                 } else if (timeLagABS <= 0.066) {
-                    message(1, i);
+                    message(1, noteQueue[i]);
                     EntireManager.instance.Break++;
                 } else {
-                    message(2, i);
+                    message(2, noteQueue[i]);
                     EntireManager.instance.Hit++;
                 }
                 EntireManager.instance.combo++;
+                notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
+                noteQueue.RemoveAt(i);
                 break;
             }
         }
