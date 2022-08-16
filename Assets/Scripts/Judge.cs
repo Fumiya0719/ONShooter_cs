@@ -89,8 +89,8 @@ public class Judge : MonoBehaviour
         }
     }
 
-    void JudgeLongNotes(int i, params int[] args) { 
-        if (notesManager.LaneNum[noteQueue[i]] == args[0] || notesManager.LaneNum[noteQueue[i]] == args[1]) {
+    void JudgeLongNotes(int i, params int[] args) {
+        if (noteQueue.Count != 0 && (notesManager.LaneNum[noteQueue[i]] == args[0] || notesManager.LaneNum[noteQueue[i]] == args[1])) {
             notesManager.NotesObj[noteQueue[i]][1].layer = LayerMask.NameToLayer("LongNote");
             float enTime = Time.time - (notesManager.NotesTime[noteQueue[i]][1] + EntireManager.instance.StartTime);
             if (notesManager.NotesObj[noteQueue[i]][2].activeSelf && enTime > -0.1f) {
