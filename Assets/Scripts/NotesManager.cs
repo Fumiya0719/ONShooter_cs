@@ -58,7 +58,7 @@ public class NotesManager : MonoBehaviour
 
     void OnEnable() {
         noteNum = 0;
-        title = "Girl Meets Love";
+        title = "Hesitation Snow";
         Load(title);
     }
 
@@ -83,7 +83,15 @@ public class NotesManager : MonoBehaviour
 
             float z = notesTimeQueue * NotesSpeed;
 
-            GameObject noteQueue = Instantiate(noteObj, new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, z), Quaternion.identity);
+            // 通常ノーツの位置・回転調整
+            // サイドノーツ
+            GameObject noteQueue = new GameObject();
+            if (inputJson.notes[i].block == 0 || inputJson.notes[i].block == 7) {
+                noteQueue = Instantiate(noteObj, new Vector3(inputJson.notes[i].block - 3.56f, 1.22f, z), Quaternion.Euler(120f, 0, 180f));
+            // 
+            } else {
+                noteQueue = Instantiate(noteObj, new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, z), Quaternion.identity);
+            }
 
             // ロングノーツ(LN)の生成
             if (inputJson.notes[i].type == 2) {

@@ -90,19 +90,23 @@ public class Judge : MonoBehaviour
     }
 
     void JudgeLongNotes(int i, params int[] args) {
-        if (noteQueue.Count != 0 && (notesManager.LaneNum[noteQueue[i]] == args[0] || notesManager.LaneNum[noteQueue[i]] == args[1])) {
-            notesManager.NotesObj[noteQueue[i]][1].layer = LayerMask.NameToLayer("LongNote");
-            float enTime = Time.time - (notesManager.NotesTime[noteQueue[i]][1] + EntireManager.instance.StartTime);
-            if (notesManager.NotesObj[noteQueue[i]][2].activeSelf && enTime > -0.1f) {
-                if (enTime > 0) {
-                    message(0, noteQueue[i]);
-                    EntireManager.instance.CBreak++;
-                    notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
-                    notesManager.NotesObj[noteQueue[i]][1].SetActive(false);
-                    notesManager.NotesObj[noteQueue[i]][2].SetActive(false);
-                    noteQueue.RemoveAt(i);
-                }
-            }     
+        if (noteQueue.Count != 0) {
+            if (notesManager.LaneNum[noteQueue[i]] == args[0] || notesManager.LaneNum[noteQueue[i]] == args[1]) {
+                notesManager.NotesObj[noteQueue[i]][1].layer = LayerMask.NameToLayer("LongNote");
+                float enTime = Time.time - (notesManager.NotesTime[noteQueue[i]][1] + EntireManager.instance.StartTime);
+                if (notesManager.NotesObj[noteQueue[i]][2].activeSelf && enTime > -0.1f) {
+                    if (enTime > 0) {
+                        message(0, noteQueue[i]);
+                        EntireManager.instance.CBreak++;
+                        notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
+                        notesManager.NotesObj[noteQueue[i]][1].SetActive(false);
+                        notesManager.NotesObj[noteQueue[i]][2].SetActive(false);
+                        noteQueue.RemoveAt(i);
+                    }
+                }     
+            } //else {
+            //     notesManager.NotesObj[noteQueue[i]][1].layer = LayerMask.NameToLayer("Default");
+            // }
         }
     }
 
