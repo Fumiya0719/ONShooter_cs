@@ -91,7 +91,9 @@ public class Judge : MonoBehaviour
 
     void JudgeLongNotes(int i, params int[] args) {
         if (noteQueue.Count != 0) {
-            Debug.Log(i);
+            // メモ
+            // LNが2つ以上あるとき(？)LNの終点が消滅したタイミングでバグが起きる事がある。条件は不明
+            // Debug.Log(i);
             if (notesManager.LaneNum[noteQueue[i]] == args[0] || notesManager.LaneNum[noteQueue[i]] == args[1]) {
                 notesManager.NotesObj[noteQueue[i]][1].layer = LayerMask.NameToLayer("LongNote");
                 float enTime = Time.time - (notesManager.NotesTime[noteQueue[i]][1] + EntireManager.instance.StartTime);
