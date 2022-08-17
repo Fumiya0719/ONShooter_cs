@@ -174,32 +174,32 @@ MonoBehaviour:
   NoteType: 
   NotesSpeed: 15
   noteObjs:
-  - {fileID: 0}
+  - {fileID: 135477710269700103, guid: f14f391e7a877d34eb5b759745ed697f, type: 3}
   - {fileID: 8568734267903933936, guid: 0cb7846361fd9924b90b4b9e4beff503, type: 3}
   - {fileID: 664461860636297247, guid: 1dd9e1f9427def147aa43527185e2d1b, type: 3}
   - {fileID: 985847490223719037, guid: 690a895c562e8654389c8d6f0fa0de93, type: 3}
   - {fileID: 8568734267903933936, guid: 0cb7846361fd9924b90b4b9e4beff503, type: 3}
   - {fileID: 664461860636297247, guid: 1dd9e1f9427def147aa43527185e2d1b, type: 3}
   - {fileID: 985847490223719037, guid: 690a895c562e8654389c8d6f0fa0de93, type: 3}
-  - {fileID: 0}
+  - {fileID: 3521074222151321087, guid: dbe16d58dca3a1a43b247a69b8dcf82a, type: 3}
   longNoteObjs:
-  - {fileID: 0}
+  - {fileID: 5623489980626850719, guid: 20da36deb766bf742b4fd34173cce6cd, type: 3}
   - {fileID: 1381219308681862490, guid: 9b29b2b7bbc67e74fbc3d374061b3c05, type: 3}
   - {fileID: 3121160267400816057, guid: 5045c325c6df11546b871949202bf6ce, type: 3}
   - {fileID: 5929069037846591452, guid: c5899bc24c9f0a948abc143c42622782, type: 3}
   - {fileID: 1381219308681862490, guid: 9b29b2b7bbc67e74fbc3d374061b3c05, type: 3}
   - {fileID: 3121160267400816057, guid: 5045c325c6df11546b871949202bf6ce, type: 3}
   - {fileID: 5929069037846591452, guid: c5899bc24c9f0a948abc143c42622782, type: 3}
-  - {fileID: 0}
+  - {fileID: 5417848598539666527, guid: 7cdda908a006395418be038a99d78984, type: 3}
   endNoteObjs:
-  - {fileID: 0}
+  - {fileID: 7044864111455071744, guid: 5a3eb6fabf6824a4487d574c583386c4, type: 3}
   - {fileID: 1630748133366090742, guid: 26494175deee6d24b99e8d5c849128a7, type: 3}
   - {fileID: 1584471395430695986, guid: d8f032aba9355f64d84e7f5b3239cdd4, type: 3}
   - {fileID: 7000333220911609278, guid: 9874eea96694a874eb9827061dc7063d, type: 3}
   - {fileID: 1630748133366090742, guid: 26494175deee6d24b99e8d5c849128a7, type: 3}
   - {fileID: 1584471395430695986, guid: d8f032aba9355f64d84e7f5b3239cdd4, type: 3}
   - {fileID: 7000333220911609278, guid: 9874eea96694a874eb9827061dc7063d, type: 3}
-  - {fileID: 0}
+  - {fileID: 8972508153982392194, guid: a6fb038b93b35bf43a50451e93ea74f7, type: 3}
 --- !u!1 &481700142
 GameObject:
   m_ObjectHideFlags: 0
@@ -228,7 +228,7 @@ AudioSource:
   m_Enabled: 0
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: a8f88411099a3bd498cb20b489dc07ac, type: 3}
+  m_audioClip: {fileID: 8300000, guid: e2541a38abf55d64ca42c81b5d9be0da, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1

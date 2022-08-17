@@ -58,6 +58,8 @@ public class Judge : MonoBehaviour
                         } 
                     }
                 }
+                // ロングノーツの処理
+                IsExistLongNotes();
 
                 // キー入力がされた際の処理
                 if (Input.GetKeyDown(KeyCode.LeftShift)) JudgeNotes(0,0);
@@ -69,8 +71,6 @@ public class Judge : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.RightBracket)) JudgeNotes(6,3);
                 if (Input.GetKeyDown(KeyCode.RightShift)) JudgeNotes(7,7);
 
-                // ロングノーツの処理
-                IsExistLongNotes();
             }
         }     
     }
@@ -91,6 +91,7 @@ public class Judge : MonoBehaviour
 
     void JudgeLongNotes(int i, params int[] args) {
         if (noteQueue.Count != 0) {
+            Debug.Log(i);
             if (notesManager.LaneNum[noteQueue[i]] == args[0] || notesManager.LaneNum[noteQueue[i]] == args[1]) {
                 notesManager.NotesObj[noteQueue[i]][1].layer = LayerMask.NameToLayer("LongNote");
                 float enTime = Time.time - (notesManager.NotesTime[noteQueue[i]][1] + EntireManager.instance.StartTime);
