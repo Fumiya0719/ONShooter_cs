@@ -35,15 +35,18 @@ public class LongNote {
 public class NotesManager : MonoBehaviour
 {
     public int noteNum;
-    // 曲名
-    public string title;
     // LNの判定に使う用(1/2リズム)
     public float longNoteInterval;
     public List<int> LaneNum = new List<int>();
     public List<int> NoteType = new List<int>();
+    // ロングノーツ用の判定フラグ
+    public List<int> CountMidLN = new List<int>();
+    public List<int> JudgeFlag = new List<int>();
     public List<float[]> NotesTime = new List<float[]>();
     public List<GameObject[]> NotesObj = new List<GameObject[]>(); 
 
+    // 曲名
+    [SerializeField] public string title;
     [SerializeField] public float NotesSpeed;
     [SerializeField] private GameObject[] noteObjs;
     [SerializeField] private GameObject[] longNoteObjs;
@@ -53,33 +56,36 @@ public class NotesManager : MonoBehaviour
     private GameObject longNoteObj;
     private GameObject endNoteObj;
 
+    private string songTitle;
     private MeshFilter meshFilter;
     private float noteScale = 1.0f;
 
     void OnEnable() {
         noteNum = 0;
-        title = "DIAMOND JOKER";
-        Load(title);
+        songTitle = title;
+        Load(songTitle);
     }
 
-    private void Load(string title) {
+    private void Load(string songTitle) {
 
-        string inputString = Resources.Load<TextAsset>(title).ToString();
+        string inputString = Resources.Load<TextAsset>(songTitle).ToString();
         Data inputJson = JsonUtility.FromJson<Data>(inputString);
 
         noteNum = inputJson.notes.Length;
+        longNoteInterval = 60 / ((float)inputJson.BPM * 2);
 
         for (int i = 0; i < inputJson.notes.Length; i++) {
 
             noteObj = noteObjs[inputJson.notes[i].block];
 
             float interval = 60 / (inputJson.BPM * (float)inputJson.notes[i].LPB);
-            longNoteInterval = 60 / (inputJson.BPM * 2);
             float beatSec = interval * (float)inputJson.notes[i].LPB;
             float notesTimeQueue = (beatSec * inputJson.notes[i].num / (float)inputJson.notes[i].LPB) + inputJson.offset * 0.01f;
 
             LaneNum.Add(inputJson.notes[i].block);
             NoteType.Add(inputJson.notes[i].type);
+            CountMidLN.Add(1);
+            JudgeFlag.Add(3);
 
             float z = notesTimeQueue * NotesSpeed;
 
@@ -136,11 +142,12 @@ public class NotesManager : MonoBehaviour
 
     public void GenerateLongNote(Vector3 startPos, Vector3 endPos, GameObject ln, int block) {        
         Mesh mesh = new Mesh();
+        ln.GetComponent<MeshFilter>().mesh = mesh;
 
         Vector3[] vertices = new Vector3[4];
         int[] triangles = new int[6];
 
-        Vector3 lnLength = (endPos - startPos) * 2.25f;
+        Vector3 lnLength = (endPos - startPos);
 
         vertices[0] = new Vector3(-noteScale / 2, 0, 0);
         vertices[1] = new Vector3(noteScale / 2, 0, 0);
@@ -152,7 +159,5 @@ public class NotesManager : MonoBehaviour
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.RecalculateNormals();
-
-        ln.GetComponent<MeshFilter>().mesh = mesh;
     }
 }

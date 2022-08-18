@@ -12,6 +12,10 @@ PrefabInstance:
       value: lnGreen
       objectReference: {fileID: 0}
     - target: {fileID: 2152360315970691331, guid: 6d5a7befba2cd8b46929a88222ccfa36, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2152360315970691331, guid: 6d5a7befba2cd8b46929a88222ccfa36, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: b4e466f2b8df79f4aa5ef77ba158685d, type: 2}
@@ -22,6 +26,10 @@ PrefabInstance:
     - target: {fileID: 2152360315970691333, guid: 6d5a7befba2cd8b46929a88222ccfa36, type: 3}
       propertyPath: m_RootOrder
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2152360315970691333, guid: 6d5a7befba2cd8b46929a88222ccfa36, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2152360315970691333, guid: 6d5a7befba2cd8b46929a88222ccfa36, type: 3}
       propertyPath: m_LocalPosition.x
