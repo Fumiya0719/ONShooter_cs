@@ -41,6 +41,8 @@ public class NotesManager : MonoBehaviour
     public float longNoteInterval;
     public List<int> LaneNum = new List<int>();
     public List<int> NoteType = new List<int>();
+    // ロングノーツ用の判定フラグ
+    public List<int> CountMidLN = new List<int>();
     public List<int> JudgeFlag = new List<int>();
     public List<float[]> NotesTime = new List<float[]>();
     public List<GameObject[]> NotesObj = new List<GameObject[]>(); 
@@ -59,7 +61,7 @@ public class NotesManager : MonoBehaviour
 
     void OnEnable() {
         noteNum = 0;
-        title = "Hesitation Snow2";
+        title = "Hesitation Snow";
         Load(title);
     }
 
@@ -69,18 +71,19 @@ public class NotesManager : MonoBehaviour
         Data inputJson = JsonUtility.FromJson<Data>(inputString);
 
         noteNum = inputJson.notes.Length;
+        longNoteInterval = 60 / ((float)inputJson.BPM * 2);
 
         for (int i = 0; i < inputJson.notes.Length; i++) {
 
             noteObj = noteObjs[inputJson.notes[i].block];
 
             float interval = 60 / (inputJson.BPM * (float)inputJson.notes[i].LPB);
-            longNoteInterval = 60 / (inputJson.BPM * 2);
             float beatSec = interval * (float)inputJson.notes[i].LPB;
             float notesTimeQueue = (beatSec * inputJson.notes[i].num / (float)inputJson.notes[i].LPB) + inputJson.offset * 0.01f;
 
             LaneNum.Add(inputJson.notes[i].block);
             NoteType.Add(inputJson.notes[i].type);
+            CountMidLN.Add(1);
             JudgeFlag.Add(3);
 
             float z = notesTimeQueue * NotesSpeed;
@@ -144,16 +147,11 @@ public class NotesManager : MonoBehaviour
         int[] triangles = new int[6];
 
         Vector3 lnLength = (endPos - startPos);
-        Debug.Log(lnLength);
 
         vertices[0] = new Vector3(-noteScale / 2, 0, 0);
         vertices[1] = new Vector3(noteScale / 2, 0, 0);
         vertices[2] = lnLength + new Vector3(-noteScale / 2, 0, 0);
         vertices[3] = lnLength + new Vector3(noteScale / 2, 0, 0);
-        Debug.Log(vertices[0]);
-        Debug.Log(vertices[1]);
-        Debug.Log(vertices[2]);
-        Debug.Log(vertices[3]);
 
         triangles = new int[6] {0, 2, 1, 3, 1, 2};
 
