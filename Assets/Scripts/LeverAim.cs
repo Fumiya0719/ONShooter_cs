@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LeverAim : MonoBehaviour
 {
-    [SerializeField] private float sens;
+    [SerializeField] public float sens;
     private Vector3 mousePos;
     private float argPos;
     private float objPos;

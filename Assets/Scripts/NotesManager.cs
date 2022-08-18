@@ -58,7 +58,7 @@ public class NotesManager : MonoBehaviour
 
     void OnEnable() {
         noteNum = 0;
-        title = "Hesitation Snow";
+        title = "DIAMOND JOKER";
         Load(title);
     }
 
@@ -90,10 +90,10 @@ public class NotesManager : MonoBehaviour
                 noteQueue = Instantiate(noteObj, new Vector3(inputJson.notes[i].block - 3.56f, 1.22f, z), Quaternion.Euler(120f, 0, 180f));
             // フリック(左)ノーツ
             } else if (inputJson.notes[i].block == 8) {
-                noteQueue = Instantiate(noteObj, new Vector3(-1f, 0.55f, z), Quaternion.Euler(120f, 0, 180f));        
+                noteQueue = Instantiate(noteObj, new Vector3(-1f, 1.22f, z), Quaternion.Euler(120f, 0, 180f));        
             // フリック(右)ノーツ
             } else if (inputJson.notes[i].block == 9) {
-                noteQueue = Instantiate(noteObj, new Vector3(1f, 0.55f, z), Quaternion.Euler(120f, 0, 180f));
+                noteQueue = Instantiate(noteObj, new Vector3(1f, 1.22f, z), Quaternion.Euler(120f, 0, 180f));
             } else {
                 noteQueue = Instantiate(noteObj, new Vector3(inputJson.notes[i].block - 3.56f, 0.55f, z), Quaternion.identity);
             }

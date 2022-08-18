@@ -6,6 +6,7 @@ public class Judge : MonoBehaviour
 {
     [SerializeField] private GameObject[] MessageObj;
     [SerializeField] NotesManager notesManager;
+    [SerializeField] LeverAim leverAim;
 
     [SerializeField] bool JudgeSlowAndFast;
 
@@ -21,18 +22,45 @@ public class Judge : MonoBehaviour
     private int noteCount = 0;
     private float judgeTimeABS = 0.10f;
     private List<int> noteQueue = new List<int>();
+    private float mousePos;
+    private float objPos;
+    private float preMousePosX;
     void Update()
     {
         if (EntireManager.instance.Start) {
             // 判定ライン-0.15秒に到達したノーツを判定キューに挿入
             // (Hit判定は±0.1秒だが処理によって若干の遅延が起きる可能性があるので少し時間を取る)
-            if (Time.time >= EntireManager.instance.StartTime + notesManager.NotesTime[noteCount][0] - 0.15f) {
+            if (Time.time >= EntireManager.instance.StartTime + notesManager.NotesTime[noteCount][0] - 0.10f) {
                 noteQueue.Add(noteCount);
                 noteCount++;
             }
 
             // 判定ライン±0.1秒内にノーツがある場合の処理
             if (noteQueue.Count != 0) {
+                // ロングノーツの処理
+                IsExistLongNotes();
+                // フリックの処理
+                mousePos = Input.mousePosition.x * leverAim.sens;
+                if (mousePos < -3.56f) {
+                    objPos = -3.56f;
+                } else if (mousePos > 3.56f) {
+                    objPos = 3.56f;
+                } else {
+                    objPos = mousePos;
+                }
+                JudgeFlick(preMousePosX, objPos);
+                preMousePosX = objPos;
+
+                // キー入力がされた際の処理
+                if (Input.GetKeyDown(KeyCode.LeftShift)) JudgeNotes(0,0);
+                if (Input.GetKeyDown(KeyCode.S)) JudgeNotes(1,4);
+                if (Input.GetKeyDown(KeyCode.D)) JudgeNotes(2,5);
+                if (Input.GetKeyDown(KeyCode.F)) JudgeNotes(3,6);
+                if (Input.GetKeyDown(KeyCode.Equals)) JudgeNotes(4,1);
+                if (Input.GetKeyDown(KeyCode.Semicolon)) JudgeNotes(5,2);
+                if (Input.GetKeyDown(KeyCode.RightBracket)) JudgeNotes(6,3);
+                if (Input.GetKeyDown(KeyCode.RightShift)) JudgeNotes(7,7);
+
                 // 判定ライン+0.1秒に到達したノーツを非アクティブにし判定キューから消去
                 // 判定ライン内にノーツがある場合全ノーツを検索(LN対応)
                 for (int i = 0; i < noteQueue.Count; i++) {
@@ -58,21 +86,26 @@ public class Judge : MonoBehaviour
                         } 
                     }
                 }
-                // ロングノーツの処理
-                IsExistLongNotes();
-
-                // キー入力がされた際の処理
-                if (Input.GetKeyDown(KeyCode.LeftShift)) JudgeNotes(0,0);
-                if (Input.GetKeyDown(KeyCode.S)) JudgeNotes(1,4);
-                if (Input.GetKeyDown(KeyCode.D)) JudgeNotes(2,5);
-                if (Input.GetKeyDown(KeyCode.F)) JudgeNotes(3,6);
-                if (Input.GetKeyDown(KeyCode.Equals)) JudgeNotes(4,1);
-                if (Input.GetKeyDown(KeyCode.Semicolon)) JudgeNotes(5,2);
-                if (Input.GetKeyDown(KeyCode.RightBracket)) JudgeNotes(6,3);
-                if (Input.GetKeyDown(KeyCode.RightShift)) JudgeNotes(7,7);
-
             }
         }     
+    }
+
+    void JudgeFlick(float prePos, float nowPos) {
+        for (int i = 0; i < noteQueue.Count; i++) {
+            if (!(notesManager.LaneNum[noteQueue[i]] == 8 || notesManager.LaneNum[noteQueue[i]] == 9)) continue;
+            Debug.Log(nowPos);
+            if (notesManager.LaneNum[noteQueue[i]] == 8 && nowPos - prePos < 0) {
+                Instantiate(MessageObj[0], new Vector3(-1f, 0.76f, 0.15f), Quaternion.Euler(45, 0, 0));
+                EntireManager.instance.CBreak++;
+                notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
+                noteQueue.RemoveAt(i);
+            } else if (notesManager.LaneNum[noteQueue[i]] == 9 && nowPos - prePos > 0) {
+                Instantiate(MessageObj[0], new Vector3(1f, 0.76f, 0.15f), Quaternion.Euler(45, 0, 0));
+                EntireManager.instance.CBreak++;
+                notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
+                noteQueue.RemoveAt(i);
+            }
+        }
     }
 
     void IsExistLongNotes() {
