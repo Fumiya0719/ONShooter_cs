@@ -52,14 +52,14 @@ public class Judge : MonoBehaviour
                 preMousePosX = objPos;
 
                 // キー入力がされた際の処理
-                if (Input.GetKeyDown(KeyCode.LeftShift)) JudgeNotes(0,0);
-                if (Input.GetKeyDown(KeyCode.S)) JudgeNotes(1,4);
-                if (Input.GetKeyDown(KeyCode.D)) JudgeNotes(2,5);
-                if (Input.GetKeyDown(KeyCode.F)) JudgeNotes(3,6);
-                if (Input.GetKeyDown(KeyCode.Equals)) JudgeNotes(4,1);
-                if (Input.GetKeyDown(KeyCode.Semicolon)) JudgeNotes(5,2);
-                if (Input.GetKeyDown(KeyCode.RightBracket)) JudgeNotes(6,3);
-                if (Input.GetKeyDown(KeyCode.RightShift)) JudgeNotes(7,7);
+                if (Input.GetKeyDown(KeyCode.LeftShift)) JudgeNotes(0);
+                if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Equals)) JudgeNotes(1);
+                if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.Semicolon)) JudgeNotes(2);
+                if (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.RightBracket)) JudgeNotes(3);
+                if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.Equals)) JudgeNotes(4);
+                if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.Semicolon)) JudgeNotes(5);
+                if (Input.GetKeyDown(KeyCode.F) || Input.GetKeyDown(KeyCode.RightBracket)) JudgeNotes(6);
+                if (Input.GetKeyDown(KeyCode.RightShift)) JudgeNotes(7);
 
                 // 判定ライン+0.1秒に到達したノーツを非アクティブにし判定キューから消去
                 // 判定ライン内にノーツがある場合全ノーツを検索(LN対応)
@@ -161,23 +161,23 @@ public class Judge : MonoBehaviour
                 }
             }
 
-            if (Input.GetKey(KeyCode.LeftShift)) JudgeLongNotes(i, 0,0);
-            if (Input.GetKey(KeyCode.S)) JudgeLongNotes(i, 1,4);
-            if (Input.GetKey(KeyCode.D)) JudgeLongNotes(i, 2,5);
-            if (Input.GetKey(KeyCode.F)) JudgeLongNotes(i, 3,6);
-            if (Input.GetKey(KeyCode.Equals)) JudgeLongNotes(i, 4,1);
-            if (Input.GetKey(KeyCode.Semicolon)) JudgeLongNotes(i, 5,2);
-            if (Input.GetKey(KeyCode.RightBracket)) JudgeLongNotes(i, 6,3);
-            if (Input.GetKey(KeyCode.RightShift)) JudgeLongNotes(i, 7,7);
+            if (Input.GetKey(KeyCode.LeftShift)) JudgeLongNotes(i, 0);
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.Equals)) JudgeLongNotes(i, 1);
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.Semicolon)) JudgeLongNotes(i, 2);
+            if (Input.GetKey(KeyCode.F) || Input.GetKey(KeyCode.RightBracket)) JudgeLongNotes(i, 3);
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.Equals)) JudgeLongNotes(i, 4);
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.Semicolon)) JudgeLongNotes(i, 5);
+            if (Input.GetKey(KeyCode.F) || Input.GetKey(KeyCode.RightBracket)) JudgeLongNotes(i, 6);
+            if (Input.GetKey(KeyCode.RightShift)) JudgeLongNotes(i, 7);
         }
     }
 
-    void JudgeLongNotes(int i, params int[] args) {
+    void JudgeLongNotes(int i, int key) {
         if (noteQueue.Count != 0) {
             // メモ
             // LNが2つ以上あるとき(？)LNの終点が消滅したタイミングでバグが起きる事がある。(index was out of range)
             // ↑更新：2つ以上ノーツがある際終点で1つだけ消えたときに発生する。
-            if (notesManager.LaneNum[noteQueue[i]] == args[0] || notesManager.LaneNum[noteQueue[i]] == args[1]) {
+            if (notesManager.LaneNum[noteQueue[i]] == key) {
                 notesManager.NotesObj[noteQueue[i]][1].layer = LayerMask.NameToLayer("LongNote");
 
                 // LNの途中判定(1/2リズム毎)
@@ -222,14 +222,12 @@ public class Judge : MonoBehaviour
         // noteQueue.RemoveAt(i);
     }
 
-    void JudgeNotes(params int[] args) {
+    void JudgeNotes(int key) {
         for (int i = 0; i < noteQueue.Count; i++) {
             float timeLag = Time.time - (notesManager.NotesTime[noteQueue[i]][0] + EntireManager.instance.StartTime);
             float timeLagABS = Mathf.Abs(timeLag);
                
-            if (timeLagABS <= 0.10 && 
-                (notesManager.LaneNum[noteQueue[i]] == args[0] ||
-                notesManager.LaneNum[noteQueue[i]] == args[1])) {
+            if (timeLagABS <= 0.10 && (notesManager.LaneNum[noteQueue[i]] == key)) {
                 if (JudgeSlowAndFast) {
                     if (timeLag < 0) {
                         Debug.Log("fast");
@@ -239,7 +237,7 @@ public class Judge : MonoBehaviour
                 }
 
                 // sideノーツの判定
-                if (args[0] == 0 || args[0] == 7) {
+                if (key == 0 || key == 7) {
                     if (timeLagABS <= 0.05) {
                         message(0, noteQueue[i]);
                     } else {
