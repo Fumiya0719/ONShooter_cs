@@ -136,23 +136,27 @@ public class NotesManager : MonoBehaviour
 
     public void GenerateLongNote(Vector3 startPos, Vector3 endPos, GameObject ln, int block) {        
         Mesh mesh = new Mesh();
+        ln.GetComponent<MeshFilter>().mesh = mesh;
 
         Vector3[] vertices = new Vector3[4];
         int[] triangles = new int[6];
 
-        Vector3 lnLength = (endPos - startPos) * 2.25f;
+        Vector3 lnLength = (endPos - startPos);
+        Debug.Log(lnLength);
 
         vertices[0] = new Vector3(-noteScale / 2, 0, 0);
         vertices[1] = new Vector3(noteScale / 2, 0, 0);
         vertices[2] = lnLength + new Vector3(-noteScale / 2, 0, 0);
         vertices[3] = lnLength + new Vector3(noteScale / 2, 0, 0);
+        Debug.Log(vertices[0]);
+        Debug.Log(vertices[1]);
+        Debug.Log(vertices[2]);
+        Debug.Log(vertices[3]);
 
         triangles = new int[6] {0, 2, 1, 3, 1, 2};
 
         mesh.vertices = vertices;
         mesh.triangles = triangles;
         mesh.RecalculateNormals();
-
-        ln.GetComponent<MeshFilter>().mesh = mesh;
     }
 }
