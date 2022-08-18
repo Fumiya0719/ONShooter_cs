@@ -15,7 +15,7 @@ public class MusicManager : MonoBehaviour
     void Start()
     {
         EntireManager.instance.Start = false;
-        title = "Hesitation Snow";
+        title = notesManager.title;
         song = GetComponent<AudioSource>();
         Music = (AudioClip)Resources.Load("Musics/" + title);
         played = false;

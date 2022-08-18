@@ -9,6 +9,8 @@ public class Judge : MonoBehaviour
     [SerializeField] LeverAim leverAim;
 
     [SerializeField] bool JudgeSlowAndFast;
+    [SerializeField] bool DisplayCombo;
+    [SerializeField] bool DisplayJudge;
 
     /*
     メモ：
@@ -19,12 +21,21 @@ public class Judge : MonoBehaviour
     そのノーツがロングノーツの場合、終点が0.1秒経った時にすべてInactiveにする。
     */
 
+    [SerializeField] private AudioSource NoteSESource;
+    [SerializeField] private AudioSource SideSESource;
+    [SerializeField] private AudioSource FlickSESource;
+    [SerializeField] private AudioClip NoteSE;
+    [SerializeField] private AudioClip SideSE;
+    [SerializeField] private AudioClip FlickSE;
+
     private int noteCount = 0;
     private float judgeTimeABS = 0.10f;
     private List<int> noteQueue = new List<int>();
+
     private float mousePos;
     private float objPos;
     private float preMousePosX;
+
     void Update()
     {
         if (EntireManager.instance.Start) {
@@ -98,11 +109,13 @@ public class Judge : MonoBehaviour
         for (int i = 0; i < noteQueue.Count; i++) {
             if (!(notesManager.LaneNum[noteQueue[i]] == 8 || notesManager.LaneNum[noteQueue[i]] == 9)) continue;
             if (notesManager.LaneNum[noteQueue[i]] == 8 && nowPos - prePos < 0) {
+                FlickSESource.PlayOneShot(FlickSE);
                 Instantiate(MessageObj[0], new Vector3(-1f, 0.76f, 0.15f), Quaternion.Euler(45, 0, 0));
                 EntireManager.instance.CBreak++;
                 notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
                 noteQueue.RemoveAt(i);
             } else if (notesManager.LaneNum[noteQueue[i]] == 9 && nowPos - prePos > 0) {
+                FlickSESource.PlayOneShot(FlickSE);
                 Instantiate(MessageObj[0], new Vector3(1f, 0.76f, 0.15f), Quaternion.Euler(45, 0, 0));
                 EntireManager.instance.CBreak++;
                 notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
@@ -150,12 +163,15 @@ public class Judge : MonoBehaviour
                 }
             } else if (notesManager.NotesObj[noteQueue[i]][2].activeSelf) {
                 if (lnTime > 0f && notesManager.JudgeFlag[noteQueue[i]] != 3) {
+                    NoteSESource.PlayOneShot(NoteSE);
                     message(notesManager.JudgeFlag[noteQueue[i]], noteQueue[i]);
                     DeleteLNData(i);
                 } else if (notesManager.JudgeFlag[noteQueue[i]] != 0 && lnTime > 0.33f) {
+                    NoteSESource.PlayOneShot(NoteSE);
                     message(notesManager.JudgeFlag[noteQueue[i]], noteQueue[i]);
                     DeleteLNData(i);
                 } else if (notesManager.JudgeFlag[noteQueue[i]] != 0 && notesManager.JudgeFlag[noteQueue[i]] != 1 && lnTime > 0.66f && lnTime <= 0.10f) {
+                    NoteSESource.PlayOneShot(NoteSE);
                     message(notesManager.JudgeFlag[noteQueue[i]], noteQueue[i]);
                     DeleteLNData(i);
                 }
@@ -219,7 +235,6 @@ public class Judge : MonoBehaviour
         notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
         notesManager.NotesObj[noteQueue[i]][1].SetActive(false);
         notesManager.NotesObj[noteQueue[i]][2].SetActive(false);
-        // noteQueue.RemoveAt(i);
     }
 
     void JudgeNotes(int key) {
@@ -238,6 +253,7 @@ public class Judge : MonoBehaviour
 
                 // sideノーツの判定
                 if (key == 0 || key == 7) {
+                    SideSESource.PlayOneShot(SideSE);
                     if (timeLagABS <= 0.05) {
                         message(0, noteQueue[i]);
                     } else {
@@ -245,6 +261,7 @@ public class Judge : MonoBehaviour
                     }
                 // 通常ノーツの判定
                 } else {
+                    NoteSESource.PlayOneShot(NoteSE);
                     if (timeLagABS <= 0.033) {
                         message(0, noteQueue[i]);
                     } else if (timeLagABS <= 0.066) {
@@ -255,11 +272,13 @@ public class Judge : MonoBehaviour
                 }
 
                 notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
-                Debug.Log(EntireManager.instance.combo);
-                // 対象ノーツが通常ノーツならリストから排除
-                // if (notesManager.NotesObj[noteQueue[i]].Length == 1) {
-                //     noteQueue.RemoveAt(i);
-                // } 
+                if (DisplayCombo) Debug.Log(EntireManager.instance.combo);
+                if (DisplayJudge) {
+                    Debug.Log(EntireManager.instance.CBreak);
+                    Debug.Log(EntireManager.instance.Break);
+                    Debug.Log(EntireManager.instance.Hit);
+                    Debug.Log(EntireManager.instance.Miss);
+                }
                 break;
             }
         }

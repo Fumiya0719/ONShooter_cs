@@ -35,8 +35,6 @@ public class LongNote {
 public class NotesManager : MonoBehaviour
 {
     public int noteNum;
-    // 曲名
-    public string title;
     // LNの判定に使う用(1/2リズム)
     public float longNoteInterval;
     public List<int> LaneNum = new List<int>();
@@ -47,6 +45,8 @@ public class NotesManager : MonoBehaviour
     public List<float[]> NotesTime = new List<float[]>();
     public List<GameObject[]> NotesObj = new List<GameObject[]>(); 
 
+    // 曲名
+    [SerializeField] public string title;
     [SerializeField] public float NotesSpeed;
     [SerializeField] private GameObject[] noteObjs;
     [SerializeField] private GameObject[] longNoteObjs;
@@ -56,18 +56,19 @@ public class NotesManager : MonoBehaviour
     private GameObject longNoteObj;
     private GameObject endNoteObj;
 
+    private string songTitle;
     private MeshFilter meshFilter;
     private float noteScale = 1.0f;
 
     void OnEnable() {
         noteNum = 0;
-        title = "Hesitation Snow";
-        Load(title);
+        songTitle = title;
+        Load(songTitle);
     }
 
-    private void Load(string title) {
+    private void Load(string songTitle) {
 
-        string inputString = Resources.Load<TextAsset>(title).ToString();
+        string inputString = Resources.Load<TextAsset>(songTitle).ToString();
         Data inputJson = JsonUtility.FromJson<Data>(inputString);
 
         noteNum = inputJson.notes.Length;
