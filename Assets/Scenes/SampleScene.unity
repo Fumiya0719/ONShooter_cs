@@ -182,8 +182,11 @@ MonoBehaviour:
   - {fileID: 664461860636297247, guid: 1dd9e1f9427def147aa43527185e2d1b, type: 3}
   - {fileID: 985847490223719037, guid: 690a895c562e8654389c8d6f0fa0de93, type: 3}
   - {fileID: 3521074222151321087, guid: dbe16d58dca3a1a43b247a69b8dcf82a, type: 3}
+<<<<<<< Updated upstream
   - {fileID: 1544818813924157001, guid: e999f21cc43042b46adaec2b1f3eddbf, type: 3}
   - {fileID: 3919952767011428807, guid: c4a24222475e1374eaa71de24a41fbb2, type: 3}
+=======
+>>>>>>> Stashed changes
   longNoteObjs:
   - {fileID: 5623489980626850719, guid: 20da36deb766bf742b4fd34173cce6cd, type: 3}
   - {fileID: 1381219308681862490, guid: 9b29b2b7bbc67e74fbc3d374061b3c05, type: 3}
@@ -227,10 +230,14 @@ AudioSource:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 481700142}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
+<<<<<<< Updated upstream
   m_audioClip: {fileID: 8300000, guid: c1a9a405751cdc54fa2cac822f9b9e9a, type: 3}
+=======
+  m_audioClip: {fileID: 8300000, guid: e2541a38abf55d64ca42c81b5d9be0da, type: 3}
+>>>>>>> Stashed changes
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
