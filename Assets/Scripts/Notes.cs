@@ -15,7 +15,8 @@ public class Notes : MonoBehaviour
 
         if (start) {
             // ノーツの移動
-            transform.position -= transform.forward * Time.deltaTime * HighSpeed;
+            Vector3 pos = this.gameObject.transform.position;
+            this.gameObject.transform.position = new Vector3(pos.x, pos.y, pos.z - (Time.deltaTime * HighSpeed));
         }
     }
 }

@@ -15,7 +15,7 @@ public class MusicManager : MonoBehaviour
     void Start()
     {
         EntireManager.instance.Start = false;
-        title = "Girl Meets Love";
+        title = "DIAMOND JOKER";
         song = GetComponent<AudioSource>();
         Music = (AudioClip)Resources.Load("Musics/" + title);
         played = false;
