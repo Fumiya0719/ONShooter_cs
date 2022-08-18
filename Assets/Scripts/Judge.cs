@@ -162,16 +162,29 @@ public class Judge : MonoBehaviour
                     }
                 }
 
-                if (timeLagABS <= 0.033) {
-                    message(0, noteQueue[i]);
-                    EntireManager.instance.CBreak++;
-                } else if (timeLagABS <= 0.066) {
-                    message(1, noteQueue[i]);
-                    EntireManager.instance.Break++;
+                // sideノーツの判定
+                if (args[0] == 0 || args[0] == 7) {
+                    if (timeLagABS <= 0.05) {
+                        message(0, noteQueue[i]);
+                        EntireManager.instance.CBreak++;
+                    } else {
+                        message(1, noteQueue[i]);
+                        EntireManager.instance.Break++;
+                    }
+                // 通常ノーツの判定
                 } else {
-                    message(2, noteQueue[i]);
-                    EntireManager.instance.Hit++;
+                    if (timeLagABS <= 0.033) {
+                        message(0, noteQueue[i]);
+                        EntireManager.instance.CBreak++;
+                    } else if (timeLagABS <= 0.066) {
+                        message(1, noteQueue[i]);
+                        EntireManager.instance.Break++;
+                    } else {
+                        message(2, noteQueue[i]);
+                        EntireManager.instance.Hit++;
+                    }
                 }
+
                 EntireManager.instance.combo++;
                 notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
                 // 対象ノーツが通常ノーツならリストから排除

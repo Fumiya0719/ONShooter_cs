@@ -41,6 +41,7 @@ public class NotesManager : MonoBehaviour
     public float longNoteInterval;
     public List<int> LaneNum = new List<int>();
     public List<int> NoteType = new List<int>();
+    public List<int> JudgeFlag = new List<int>();
     public List<float[]> NotesTime = new List<float[]>();
     public List<GameObject[]> NotesObj = new List<GameObject[]>(); 
 
@@ -58,7 +59,7 @@ public class NotesManager : MonoBehaviour
 
     void OnEnable() {
         noteNum = 0;
-        title = "DIAMOND JOKER";
+        title = "Hesitation Snow2";
         Load(title);
     }
 
@@ -80,6 +81,7 @@ public class NotesManager : MonoBehaviour
 
             LaneNum.Add(inputJson.notes[i].block);
             NoteType.Add(inputJson.notes[i].type);
+            JudgeFlag.Add(3);
 
             float z = notesTimeQueue * NotesSpeed;
 
