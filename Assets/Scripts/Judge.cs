@@ -59,7 +59,8 @@ public class Judge : MonoBehaviour
                 } else {
                     objPos = mousePos;
                 }
-                JudgeFlick(preMousePosX, objPos);
+                JudgeFlick(preMousePosX, objPos, false);
+                if (Input.GetKeyDown(KeyCode.Space)) JudgeFlick(preMousePosX, objPos, true);
                 preMousePosX = objPos;
 
                 // キー入力がされた際の処理
@@ -105,16 +106,16 @@ public class Judge : MonoBehaviour
         }     
     }
 
-    void JudgeFlick(float prePos, float nowPos) {
+    void JudgeFlick(float prePos, float nowPos, bool inputSpace) {
         for (int i = 0; i < noteQueue.Count; i++) {
             if (!(notesManager.LaneNum[noteQueue[i]] == 8 || notesManager.LaneNum[noteQueue[i]] == 9)) continue;
-            if (notesManager.LaneNum[noteQueue[i]] == 8 && nowPos - prePos < 0) {
+            if (notesManager.LaneNum[noteQueue[i]] == 8 && (nowPos - prePos < 0 || inputSpace)) {
                 FlickSESource.PlayOneShot(FlickSE);
                 Instantiate(MessageObj[0], new Vector3(-1f, 0.76f, 0.15f), Quaternion.Euler(45, 0, 0));
                 EntireManager.instance.CBreak++;
                 notesManager.NotesObj[noteQueue[i]][0].SetActive(false);
                 noteQueue.RemoveAt(i);
-            } else if (notesManager.LaneNum[noteQueue[i]] == 9 && nowPos - prePos > 0) {
+            } else if (notesManager.LaneNum[noteQueue[i]] == 9 && (nowPos - prePos > 0 || inputSpace)) {
                 FlickSESource.PlayOneShot(FlickSE);
                 Instantiate(MessageObj[0], new Vector3(1f, 0.76f, 0.15f), Quaternion.Euler(45, 0, 0));
                 EntireManager.instance.CBreak++;
@@ -163,15 +164,12 @@ public class Judge : MonoBehaviour
                 }
             } else if (notesManager.NotesObj[noteQueue[i]][2].activeSelf) {
                 if (lnTime > 0f && notesManager.JudgeFlag[noteQueue[i]] != 3) {
-                    NoteSESource.PlayOneShot(NoteSE);
                     message(notesManager.JudgeFlag[noteQueue[i]], noteQueue[i]);
                     DeleteLNData(i);
                 } else if (notesManager.JudgeFlag[noteQueue[i]] != 0 && lnTime > 0.33f) {
-                    NoteSESource.PlayOneShot(NoteSE);
                     message(notesManager.JudgeFlag[noteQueue[i]], noteQueue[i]);
                     DeleteLNData(i);
                 } else if (notesManager.JudgeFlag[noteQueue[i]] != 0 && notesManager.JudgeFlag[noteQueue[i]] != 1 && lnTime > 0.66f && lnTime <= 0.10f) {
-                    NoteSESource.PlayOneShot(NoteSE);
                     message(notesManager.JudgeFlag[noteQueue[i]], noteQueue[i]);
                     DeleteLNData(i);
                 }

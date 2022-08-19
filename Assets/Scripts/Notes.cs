@@ -5,7 +5,8 @@ using UnityEngine;
 public class Notes : MonoBehaviour
 {
     // ハイスピ設定
-    float HighSpeed = 15;
+    [SerializeField] NotesManager notesManager;
+    float HighSpeed = 20;
     bool start;
     void Update()
     {

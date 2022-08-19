@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 2152360315970691332}
   - component: {fileID: 2152360315970691331}
   - component: {fileID: 2152360315970691330}
-  - component: {fileID: 2152360315970691329}
   - component: {fileID: 2528046079278797121}
+  - component: {fileID: 5423220017878904642}
   m_Layer: 0
   m_Name: Notes
   m_TagString: Untagged
@@ -99,18 +99,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2152360315970691329
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2152360315970691328}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eaf1e46ab17da1f4eb85b8473ceb6b16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!82 &2528046079278797121
 AudioSource:
   m_ObjectHideFlags: 0
@@ -207,3 +195,16 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5423220017878904642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2152360315970691328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaf1e46ab17da1f4eb85b8473ceb6b16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  notesManager: {fileID: 0}
