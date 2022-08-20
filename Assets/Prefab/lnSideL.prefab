@@ -22,7 +22,7 @@ PrefabInstance:
     - target: {fileID: 2152360315970691332, guid: 6d5a7befba2cd8b46929a88222ccfa36, type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+      objectReference: {fileID: 0}
     - target: {fileID: 2152360315970691333, guid: 6d5a7befba2cd8b46929a88222ccfa36, type: 3}
       propertyPath: m_RootOrder
       value: 0

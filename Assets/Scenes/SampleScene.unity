@@ -173,8 +173,8 @@ MonoBehaviour:
   NoteType: 
   CountMidLN: 
   JudgeFlag: 
-  title: Emargence Vibe
-  NotesSpeed: 15
+  title: DIAMOND JOKER
+  NotesSpeed: 20
   noteObjs:
   - {fileID: 135477710269700103, guid: f14f391e7a877d34eb5b759745ed697f, type: 3}
   - {fileID: 8568734267903933936, guid: 0cb7846361fd9924b90b4b9e4beff503, type: 3}
@@ -232,7 +232,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 68fad2fdce979bf41baf4a08479e8443, type: 3}
+  m_audioClip: {fileID: 8300000, guid: c1a9a405751cdc54fa2cac822f9b9e9a, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 0.25
   m_Pitch: 1
@@ -1468,7 +1468,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ece750391dd175438ef97749636d1c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sens: 0.015
+  sens: 0.0000001
 --- !u!4 &1326123251
 Transform:
   m_ObjectHideFlags: 0
@@ -2127,6 +2127,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1038863244}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1842547994
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1842547996}
+  - component: {fileID: 1842547995}
+  m_Layer: 0
+  m_Name: Notes
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1842547995
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842547994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eaf1e46ab17da1f4eb85b8473ceb6b16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  notesManager: {fileID: 264844180}
+--- !u!4 &1842547996
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842547994}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.445546, y: 9.083436, z: 46.63386}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1851319029
 GameObject:
